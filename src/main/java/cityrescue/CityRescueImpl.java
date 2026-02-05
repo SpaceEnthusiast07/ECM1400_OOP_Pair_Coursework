@@ -15,7 +15,10 @@ public class CityRescueImpl implements CityRescue {
 
     @Override
     public void initialise(int width, int height) throws InvalidGridException {
-        // TODO: implement
+        // Throw exception if width and height are invalid
+        if (width <= 0 || height <= 0) {
+            throw new InvalidGridException("Invalid width or height.");
+        }
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
