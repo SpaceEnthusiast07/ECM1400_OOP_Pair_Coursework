@@ -1,0 +1,49 @@
+(double indented means completed)
+
+Summary:
+so far done most of stations
+need to do units, incidents, game logic
+
+1) void initialise -
+
+        2) int[] getGridSize() - DONE
+
+        3) void addObstacle() - DONE
+
+        4) void removeObstacle() - DONE
+
+        5) int addStation() - DONE
+
+6) void removeStation() - FINISH VALIDATION
+
+        7) void setStationCapacity() - DONE
+
+        8) int[] getStationIds() - DONE
+
+9) int addUnit()
+
+10) void decomissionUnit()
+
+11) void transferUnit()
+
+12) void setUnitOutOfService()
+
+13) int[] getUnitIds()
+
+14) String viewUnit()
+
+15) int reportIncident()
+
+16) void cancelIncident()
+
+17)  void escalateIncident()
+
+18) int[] getIncidentIds()
+
+19) String viewIncident()
+
+20) void dispatch()
+
+21) void tick()
+
+22) String getStatus()

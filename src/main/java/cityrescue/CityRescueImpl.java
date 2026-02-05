@@ -14,7 +14,9 @@ public class CityRescueImpl implements CityRescue {
 
     // TODO: add fields (map, arrays for stations/units/incidents, counters, tick, etc.)
     // Declare a variable to hold the city map
+    final private int MAX_STATIONS = 20;
     final private int MAX_UNITS = 50;
+    final private int MAX_INCIDENTS = 200;
 
     CityMap cityMap;
     ArrayList<Station> stations = new ArrayList<Station>();
@@ -25,8 +27,8 @@ public class CityRescueImpl implements CityRescue {
         if (width <= 0 || height <= 0) {
             throw new InvalidGridException("Invalid width or height.");
         } else {
-            // Initialise a new CitMap
             // ...
+            //TODO: Initialise a new CitMap
         }
         throw new UnsupportedOperationException("Not implemented yet");
     }
