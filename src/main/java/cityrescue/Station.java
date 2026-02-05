@@ -12,6 +12,9 @@ public class Station {
     // Unique id for each station
     private final int stationId;
 
+    private int numberOfUnits = 0;
+
+
     // Constructor
     public Station(String name, int x, int y) {
         this.name = name;
@@ -20,7 +23,7 @@ public class Station {
     }
 
     // Sets the maximum number of units this station can hold
-    public void setStationCapacity(int maxUnits) {
+    public void setMaxUnits(int maxUnits) {
         this.maxUnits = maxUnits;
     }
 
@@ -32,5 +35,9 @@ public class Station {
     // Getter function for this station's location
     public int[] getCoordinates() {
         return coordinates;
+    }
+
+    public int getNumberOfUnits() {
+        return this.numberOfUnits;
     }
 }

@@ -128,11 +128,23 @@ public class CityRescueImpl implements CityRescue {
 
     @Override
     public void setStationCapacity(int stationId, int maxUnits) throws IDNotRecognisedException, InvalidCapacityException {
-        // TODO: implement
-        if (maxUnits > MAX_UNITS) {
-            throw new InvalidCapacityException("Over maximum station capacity");
+        if (maxUnits > 0) {
+            throw new InvalidCapacityException("Station capacity cannot be under 0");
         }
-        throw new UnsupportedOperationException("Not implemented yet");
+
+        int stationIndex = findStationIndex((stationId));
+
+        if (stationIndex == -1) {   //station id not found
+            throw new IDNotRecognisedException("Station with ID not found");
+        }
+
+        Station station = stations.get(stationIndex);
+
+        if (maxUnits < station.getNumberOfUnits()) {
+            throw new InvalidCapacityException("Station capacity cannot be lowered than current number of units");
+        }
+
+        station.setMaxUnits(stationIndex);
     }
 
     @Override
