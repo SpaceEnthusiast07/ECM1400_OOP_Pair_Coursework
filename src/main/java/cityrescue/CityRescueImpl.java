@@ -1,5 +1,6 @@
 package cityrescue;
 
+import java.util.ArrayList;
 import cityrescue.enums.*;
 import cityrescue.exceptions.*;
 
@@ -14,6 +15,7 @@ public class CityRescueImpl implements CityRescue {
     // TODO: add fields (map, arrays for stations/units/incidents, counters, tick, etc.)
     // Declare a variable to hold the city map
     CityMap cityMap;
+    ArrayList<Station> stations = new ArrayList<Station>();
 
     @Override
     public void initialise(int width, int height) throws InvalidGridException {
@@ -65,8 +67,26 @@ public class CityRescueImpl implements CityRescue {
 
     @Override
     public int addStation(String name, int x, int y) throws InvalidNameException, InvalidLocationException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (name.isBlank()) {
+            throw new InvalidNameException("Name is invalid");
+        }
+
+        int[] gridSize = getGridSize();
+
+        if (x < 0 || y < 0 || x >= gridSize[0] || y >= gridSize[1]) {
+            throw new InvalidLocationException("Invalid location");
+        }
+
+        if (cityMap.isObstaclePresent(x,y)) {
+            throw new InvalidLocationException("Obstacle exists in location");
+        }
+
+        Station newStation = new Station(name, x, y);
+
+        stations.add(newStation);
+        cityMap.addObstacle(x, y);
+
+        return newStation.getStationId();
     }
 
     @Override
