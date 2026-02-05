@@ -44,14 +44,23 @@ public class CityRescueImpl implements CityRescue {
             throw new InvalidLocationException("Invalid location");
         }
 
-        // Add the obstacle
+        // Otherwise, add the obstacle
         cityMap.addObstacle(x, y);
     }
 
     @Override
     public void removeObstacle(int x, int y) throws InvalidLocationException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Retrieve the grid size
+        int[] gridSize = getGridSize();
+
+        // Check if the provided coordinates are outside the bounds
+        if (x < 0 || y < 0 || x >= gridSize[0] || y >= gridSize[1]) {
+            // Therefore, throw new exception
+            throw new InvalidLocationException("Invalid location");
+        }
+
+        // Otherwise, remove the obstacle
+        cityMap.removeObstacle(x, y);
     }
 
     @Override
