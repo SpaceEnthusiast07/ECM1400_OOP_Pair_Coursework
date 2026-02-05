@@ -6,7 +6,7 @@ public class Station {
     // Variable to hold the maximum number of units at this station
     private int maxUnits = 50;
     // Variable represents the location of this station on the city map
-    private int[] coords = new int[2];
+    private int[] coordinates = new int[2];
     // Constant used to keep track of the number of stations
     private static int numberOfStations = 0;
     // Unique id for each station
@@ -15,7 +15,7 @@ public class Station {
     // Constructor
     public Station(String name, int x, int y) {
         this.name = name;
-        this.coords = new int[] {x,y};
+        this.coordinates = new int[] {x,y};
         this.stationId = ++numberOfStations;
     }
 
@@ -27,5 +27,10 @@ public class Station {
     // Returns this station's id
     public int getStationId() {
         return this.stationId;
+    }
+
+    // Getter function for this station's location
+    public int[] getCoordinates() {
+        return coordinates;
     }
 }
