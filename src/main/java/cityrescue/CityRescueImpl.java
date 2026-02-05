@@ -14,6 +14,8 @@ public class CityRescueImpl implements CityRescue {
 
     // TODO: add fields (map, arrays for stations/units/incidents, counters, tick, etc.)
     // Declare a variable to hold the city map
+    final private int MAX_UNITS = 50;
+
     CityMap cityMap;
     ArrayList<Station> stations = new ArrayList<Station>();
 
@@ -91,20 +93,57 @@ public class CityRescueImpl implements CityRescue {
 
     @Override
     public void removeStation(int stationId) throws IDNotRecognisedException, IllegalStateException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+
+        int stationIndex = findStationIndex((stationId));
+
+        if (stationIndex == -1) {   //station id not found
+            throw new IDNotRecognisedException("Station with ID not found");
+        }
+
+        // TODO: CHECK OWNS UNITS
+
+        int[] stationCoords = stations.get(stationIndex).getCoordinates();
+
+        cityMap.removeObstacle(stationCoords[0], stationCoords[1]);
+
+        stations.remove(stationIndex);
+    }
+
+    // Linear search through all stations, and returns the arraylist index of the station matching argument Id
+    public int findStationIndex(int stationId) {
+        int[] allStationIds = getStationIds();
+
+        int stationIndex = 0;
+        boolean found = false;
+        while (stationIndex < allStationIds.length && !found) {
+            if (stations.get(stationIndex).getStationId() == stationId) {
+                found = true;
+            } else {
+                stationIndex++;
+            }
+        }
+
+        return stationIndex;
     }
 
     @Override
     public void setStationCapacity(int stationId, int maxUnits) throws IDNotRecognisedException, InvalidCapacityException {
         // TODO: implement
+        if (maxUnits > MAX_UNITS) {
+            throw new InvalidCapacityException("Over maximum station capacity");
+        }
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
     public int[] getStationIds() {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        int[] allStationIds = new int[stations.size()];
+
+        for (int i=0; i < allStationIds.length; i++) {
+            allStationIds[i] = stations.get(i).getStationId();
+        }
+
+        return allStationIds;
     }
 
     @Override
