@@ -12,6 +12,7 @@ public class Station {
     // Unique id for each station
     private final int stationId;
 
+    //number of units currently occupying this station
     private int numberOfUnits = 0;
 
 
