@@ -2,7 +2,7 @@ package cityrescue;
 
 public class CityMap {
     // Declare a 2-dimensional array to hold the city grid
-    boolean[][] cityGrid;
+    private boolean[][] cityGrid;
 
     // Declare a variable to hold the grid width and height
     private int width;
@@ -29,5 +29,10 @@ public class CityMap {
     // Function that removes an obstacle from the city map
     public void removeObstacle(int x, int y) {
         cityGrid[y][x] = false;
+    }
+
+    // Returns whether an obstacle is present at the specified location
+    public boolean isObstaclePresent(int x, int y) {
+        return cityGrid[y][x];
     }
 }
