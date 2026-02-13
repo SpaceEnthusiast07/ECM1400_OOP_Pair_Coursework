@@ -23,6 +23,10 @@ public class Station {
         this.stationId = ++numberOfStations;
     }
 
+    public static int getNumberOfStations() {
+        return numberOfStations;
+    }
+
     // Sets the maximum number of units this station can hold
     public void setMaxUnits(int maxUnits) {
         this.maxUnits = maxUnits;

@@ -19,7 +19,7 @@ public class CityRescueImpl implements CityRescue {
     final private int MAX_INCIDENTS = 200;
 
     CityMap cityMap;
-    ArrayList<Station> stations = new ArrayList<Station>();
+    Station[] stations = new Station[MAX_STATIONS];
 
     @Override
     public void initialise(int width, int height) throws InvalidGridException {
@@ -87,10 +87,11 @@ public class CityRescueImpl implements CityRescue {
 
         Station newStation = new Station(name, x, y);
 
-        stations.add(newStation);
+        stations[Station.getNumberOfStations()] = newStation;
         cityMap.addObstacle(x, y);
 
         return newStation.getStationId();
+        
     }
 
     @Override
@@ -104,11 +105,13 @@ public class CityRescueImpl implements CityRescue {
 
         // TODO: CHECK OWNS UNITS
 
-        int[] stationCoords = stations.get(stationIndex).getCoordinates();
+        int[] stationCoords = stations[stationIndex].getCoordinates();
 
         cityMap.removeObstacle(stationCoords[0], stationCoords[1]);
 
-        stations.remove(stationIndex);
+        //stations.remove(stationIndex);
+        //TODO:
+        //REMOVE STATION (BUT SINCE NOT ARRAYLIST????? NEED SHIFT????)
     }
 
     // Linear search through all stations, and returns the arraylist index of the station matching argument Id
@@ -118,7 +121,7 @@ public class CityRescueImpl implements CityRescue {
         int stationIndex = 0;
         boolean found = false;
         while (stationIndex < allStationIds.length && !found) {
-            if (stations.get(stationIndex).getStationId() == stationId) {
+            if (stations[stationIndex].getStationId() == stationId) {
                 found = true;
             } else {
                 stationIndex++;
@@ -140,7 +143,7 @@ public class CityRescueImpl implements CityRescue {
             throw new IDNotRecognisedException("Station with ID not found");
         }
 
-        Station station = stations.get(stationIndex);
+        Station station = stations[stationIndex];
 
         if (maxUnits < station.getNumberOfUnits()) {
             throw new InvalidCapacityException("Station capacity cannot be lowered than current number of units");
@@ -151,10 +154,10 @@ public class CityRescueImpl implements CityRescue {
 
     @Override
     public int[] getStationIds() {
-        int[] allStationIds = new int[stations.size()];
+        int[] allStationIds = new int[stations.length];
 
         for (int i=0; i < allStationIds.length; i++) {
-            allStationIds[i] = stations.get(i).getStationId();
+            allStationIds[i] = stations[i].getStationId();
         }
 
         return allStationIds;
