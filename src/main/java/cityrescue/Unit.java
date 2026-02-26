@@ -20,12 +20,12 @@ public abstract class Unit {
         return unitId;
     }
 
-    // Getter function for unit location
+    // Getter method for unit location
     public int[] getUnitCoordinates() {
         return coordinate;
     }
 
-    // Checks whether this unit type can handle is type of incident
+    // Checks whether this unit type can handle this type of incident
     boolean canHandle(IncidentType incidentType) {
         return false;
     }

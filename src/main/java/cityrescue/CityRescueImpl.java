@@ -1,6 +1,5 @@
 package cityrescue;
 
-import java.util.ArrayList;
 import cityrescue.enums.*;
 import cityrescue.exceptions.*;
 
@@ -14,12 +13,10 @@ public class CityRescueImpl implements CityRescue {
 
     // TODO: add fields (map, arrays for stations/units/incidents, counters, tick, etc.)
     // Declare a variable to hold the city map
-    final private int MAX_STATIONS = 20;
     final private int MAX_UNITS = 50;
-    final private int MAX_INCIDENTS = 200;
 
     CityMap cityMap;
-    Station[] stations = new Station[MAX_STATIONS];
+    Station[] stations = new Station[MAX_UNITS];
 
     @Override
     public void initialise(int width, int height) throws InvalidGridException {
@@ -27,8 +24,8 @@ public class CityRescueImpl implements CityRescue {
         if (width <= 0 || height <= 0) {
             throw new InvalidGridException("Invalid width or height.");
         } else {
+            // Initialise a new CitMap
             // ...
-            //TODO: Initialise a new CitMap
         }
         throw new UnsupportedOperationException("Not implemented yet");
     }
@@ -71,61 +68,84 @@ public class CityRescueImpl implements CityRescue {
 
     @Override
     public int addStation(String name, int x, int y) throws InvalidNameException, InvalidLocationException {
+        // Check if the name is blank
         if (name.isBlank()) {
             throw new InvalidNameException("Name is invalid");
         }
 
+        // Retrieve the grid size
         int[] gridSize = getGridSize();
 
+        // Check if the provided coordinates are within the bounds of the map
         if (x < 0 || y < 0 || x >= gridSize[0] || y >= gridSize[1]) {
             throw new InvalidLocationException("Invalid location");
         }
 
+        // Check if an obstacle is present at the provided coordinates
         if (cityMap.isObstaclePresent(x,y)) {
             throw new InvalidLocationException("Obstacle exists in location");
         }
 
+        // Create a new station
         Station newStation = new Station(name, x, y);
+        // Add this station to the array of stations
+        stations[newStation.getStationId()-1] = newStation;
 
-        stations[Station.getNumberOfStations()] = newStation;
+        // Mark its location as blocked
         cityMap.addObstacle(x, y);
 
+        // Return the station id
         return newStation.getStationId();
-        
     }
 
     @Override
     public void removeStation(int stationId) throws IDNotRecognisedException, IllegalStateException {
+        // Initial value of stationIndex
+        int stationIndex = findStationIndex(stationId);
 
-        int stationIndex = findStationIndex((stationId));
-
-        if (stationIndex == -1) {   //station id not found
-            throw new IDNotRecognisedException("Station with ID not found");
+        // Check if the station has any units
+        if (stations[stationIndex].getNumberOfUnits() != 0) {
+            throw new IllegalStateException("Station owns at least 1 unit");
         }
 
-        // TODO: CHECK OWNS UNITS
-
+        // Get the coordinates of the station in question
         int[] stationCoords = stations[stationIndex].getCoordinates();
 
+        // Remove the station from the map
         cityMap.removeObstacle(stationCoords[0], stationCoords[1]);
 
-        //stations.remove(stationIndex);
-        //TODO:
-        //REMOVE STATION (BUT SINCE NOT ARRAYLIST????? NEED SHIFT????)
+        // Remove the station from the list
+        while (stations[stationIndex] != null && stationIndex < stations.length-1) {
+            // Shift next station down in the list
+            stations[stationIndex] = stations[stationIndex+1];
+
+            stationIndex++;
+
+            // Delete last station
+            if (stationIndex == stations.length-1) {
+                stations[stationIndex] = null;
+            }
+        }
     }
 
-    // Linear search through all stations, and returns the arraylist index of the station matching argument Id
-    public int findStationIndex(int stationId) {
-        int[] allStationIds = getStationIds();
-
+    // Linear search through all stations, and returns the index of the station matching argument stationId
+    public int findStationIndex(int stationId) throws IDNotRecognisedException {
+        // Initial value of stationIndex
         int stationIndex = 0;
-        boolean found = false;
-        while (stationIndex < allStationIds.length && !found) {
+        // Variable to see if station is found
+        boolean isFound = false;
+        // Try to find the station with the specified id
+        while (!isFound && stationIndex < stations.length) {
             if (stations[stationIndex].getStationId() == stationId) {
-                found = true;
+                isFound = true;
             } else {
                 stationIndex++;
             }
+        }
+
+        // If the station is not found, throw an exception
+        if (!isFound) {
+            throw new IDNotRecognisedException("Station with "+stationId+" id is not found");
         }
 
         return stationIndex;
@@ -139,28 +159,13 @@ public class CityRescueImpl implements CityRescue {
 
         int stationIndex = findStationIndex((stationId));
 
-        if (stationIndex == -1) {   //station id not found
-            throw new IDNotRecognisedException("Station with ID not found");
-        }
-
-        Station station = stations[stationIndex];
+        Station station = stations.get(stationIndex);
 
         if (maxUnits < station.getNumberOfUnits()) {
             throw new InvalidCapacityException("Station capacity cannot be lowered than current number of units");
         }
 
         station.setMaxUnits(stationIndex);
-    }
-
-    @Override
-    public int[] getStationIds() {
-        int[] allStationIds = new int[stations.length];
-
-        for (int i=0; i < allStationIds.length; i++) {
-            allStationIds[i] = stations[i].getStationId();
-        }
-
-        return allStationIds;
     }
 
     @Override
