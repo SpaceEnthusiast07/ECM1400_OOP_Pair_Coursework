@@ -12,12 +12,22 @@ import cityrescue.exceptions.*;
 public class CityRescueImpl implements CityRescue {
 
     // TODO: add fields (map, arrays for stations/units/incidents, counters, tick, etc.)
-    // Declare a variable to hold the city map
-    final private int MAX_UNITS = 50;
+    // Array size constants:
+    private final int MAX_UNITS = 50;         // Maximum number of units any station can own
+    private final int MAX_STATIONS = 20;      // Max number of stations in the program
+    private final int MAX_INCIDENTS = 200;    // Max number of incidents in the program
 
-    CityMap cityMap;
-    Station[] stations = new Station[MAX_UNITS];
+    // Declare the city map
+    private CityMap cityMap;
+    // Initialise an array to hold all the stations
+    private Station[] stations = new Station[MAX_STATIONS];
 
+    /**
+     * TODO: Describe the initialise method in one sentence.
+     * @param width
+     * @param height
+     * @throws InvalidGridException
+     */
     @Override
     public void initialise(int width, int height) throws InvalidGridException {
         // Throw exception if width and height are invalid
@@ -30,12 +40,23 @@ public class CityRescueImpl implements CityRescue {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    /**
+     * Retrieves the size of the city map in the format {x,y}.
+     * @return An integer array with the map size.
+     */
     @Override
     public int[] getGridSize() {
         // Ask CityMap for the grid size
         return cityMap.getGridSize();
     }
 
+    /**
+     * Adds an obstacle to the map at the specified location. Coordinates are 1-based.
+     * @param x x-coordinate of the location.
+     * @param y y-coordinate of the location.
+     * @throws InvalidLocationException Thrown when the provided location is outside the
+     * bounds of the map.
+     */
     @Override
     public void addObstacle(int x, int y) throws InvalidLocationException {
         // Retrieve the grid size
@@ -51,6 +72,13 @@ public class CityRescueImpl implements CityRescue {
         cityMap.addObstacle(x, y);
     }
 
+    /**
+     * Removes the obstacle at the specified location.
+     * @param x x-coordinate of the obstacle.
+     * @param y y-coordinate of the obstacle.
+     * @throws InvalidLocationException Thrown when the provided location is outside the
+     * bounds of the map.
+     */
     @Override
     public void removeObstacle(int x, int y) throws InvalidLocationException {
         // Retrieve the grid size
@@ -66,6 +94,16 @@ public class CityRescueImpl implements CityRescue {
         cityMap.removeObstacle(x, y);
     }
 
+    /**
+     * Add a station to the simulation. Must specify a location to place the station at.
+     * @param name The station name.
+     * @param x x-coordinate of the new station's location.
+     * @param y y-coordinate of the new station's location.
+     * @return The new station's ID as an integer.
+     * @throws InvalidNameException Thrown when the provided name is blank/empty.
+     * @throws InvalidLocationException Thrown either when the provided location is outside the
+     * bounds of the map or an obstacle is present at the specified location.
+     */
     @Override
     public int addStation(String name, int x, int y) throws InvalidNameException, InvalidLocationException {
         // Check if the name is blank
@@ -98,6 +136,12 @@ public class CityRescueImpl implements CityRescue {
         return newStation.getStationId();
     }
 
+    /**
+     * Removes a station from the simulation.
+     * @param stationId Used to identify the correct station to remove.
+     * @throws IDNotRecognisedException Thrown when no station exists with the provided ID.
+     * @throws IllegalStateException Thrown when the specified station owns at least one unit.
+     */
     @Override
     public void removeStation(int stationId) throws IDNotRecognisedException, IllegalStateException {
         // Initial value of stationIndex
@@ -105,7 +149,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Check if the station has any units
         if (stations[stationIndex].getNumberOfUnits() != 0) {
-            throw new IllegalStateException("Station owns at least 1 unit");
+            throw new IllegalStateException("Station owns "+stations[stationIndex].getNumberOfUnits()+" unit(s)");
         }
 
         // Get the coordinates of the station in question
@@ -116,7 +160,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Remove the station from the list
         while (stations[stationIndex] != null && stationIndex < stations.length-1) {
-            // Shift next station down in the list
+            // Shift next station down to the current position in the station array
             stations[stationIndex] = stations[stationIndex+1];
 
             stationIndex++;
@@ -128,13 +172,19 @@ public class CityRescueImpl implements CityRescue {
         }
     }
 
-    // Linear search through all stations, and returns the index of the station matching argument stationId
+    /**
+     * Uses linear search to search through the array of stations to find which index
+     * the specified station is at.
+     * @param stationId The station's ID to find.
+     * @return The index which the specified station is at.
+     * @throws IDNotRecognisedException Thrown when no station exists with the provided ID.
+     */
     public int findStationIndex(int stationId) throws IDNotRecognisedException {
         // Initial value of stationIndex
         int stationIndex = 0;
         // Variable to see if station is found
         boolean isFound = false;
-        // Try to find the station with the specified id
+        // Try to find the station with the specified ID
         while (!isFound && stationIndex < stations.length) {
             if (stations[stationIndex].getStationId() == stationId) {
                 isFound = true;
@@ -145,34 +195,50 @@ public class CityRescueImpl implements CityRescue {
 
         // If the station is not found, throw an exception
         if (!isFound) {
-            throw new IDNotRecognisedException("Station with "+stationId+" id is not found");
+            throw new IDNotRecognisedException("Station with "+stationId+" ID is not found");
         }
 
         return stationIndex;
     }
 
+    /**
+     * Stets the maximum number of units a specified station can own.
+     * @param stationId The station's ID to adjust.
+     * @param maxUnits The new max number of units the station can own.
+     * @throws IDNotRecognisedException Thrown when no station exists with the provided ID.
+     * @throws InvalidCapacityException Thrown either when the specified capacity is less than 0 or
+     * the new capacity is less than the current.
+     */
     @Override
     public void setStationCapacity(int stationId, int maxUnits) throws IDNotRecognisedException, InvalidCapacityException {
-        if (maxUnits > 0) {
+        // Check if the capacity is less then 0
+        if (maxUnits < 0) {
             throw new InvalidCapacityException("Station capacity cannot be under 0");
         }
 
-        int stationIndex = findStationIndex((stationId));
+        // Retrieve the index this station is at
+        int stationIndex = findStationIndex(stationId);
 
-        //Station station = stations.get(stationIndex);
+        // Check if the new capacity is less than the current
+        if (maxUnits < stations[stationIndex].getNumberOfUnits()) {
+            throw new InvalidCapacityException("Station capacity cannot be lowered than current number of units");
+        }
 
-        //if (maxUnits < station.getNumberOfUnits()) {
-            //throw new InvalidCapacityException("Station capacity cannot be lowered than current number of units");
-        //}
-
-        //station.setMaxUnits(stationIndex);
+        // Set the new max units for this station
+        stations[stationIndex].setMaxUnits(maxUnits);
     }
 
+    /**
+     * Produces a list of all station IDs in ascending order.
+     * @return An array of integers representing station IDs.
+     */
     @Override
     public int[] getStationIds() {
+        // Initialise an array to hold the station ids
         int[] allStationIds = new int[stations.length];
 
-        for (int i=0; i < allStationIds.length; i++) {
+        // Extract the station ids
+        for (int i = 0; i < allStationIds.length; i++) {
             allStationIds[i] = stations[i].getStationId();
         }
 
