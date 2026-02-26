@@ -159,13 +159,24 @@ public class CityRescueImpl implements CityRescue {
 
         int stationIndex = findStationIndex((stationId));
 
-        Station station = stations.get(stationIndex);
+        //Station station = stations.get(stationIndex);
 
-        if (maxUnits < station.getNumberOfUnits()) {
-            throw new InvalidCapacityException("Station capacity cannot be lowered than current number of units");
+        //if (maxUnits < station.getNumberOfUnits()) {
+            //throw new InvalidCapacityException("Station capacity cannot be lowered than current number of units");
+        //}
+
+        //station.setMaxUnits(stationIndex);
+    }
+
+    @Override
+    public int[] getStationIds() {
+        int[] allStationIds = new int[stations.length];
+
+        for (int i=0; i < allStationIds.length; i++) {
+            allStationIds[i] = stations[i].getStationId();
         }
 
-        station.setMaxUnits(stationIndex);
+        return allStationIds;
     }
 
     @Override
