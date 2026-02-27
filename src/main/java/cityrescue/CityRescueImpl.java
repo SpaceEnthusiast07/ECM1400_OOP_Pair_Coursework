@@ -267,10 +267,8 @@ public class CityRescueImpl implements CityRescue {
      */
     @Override
     public int addUnit(int stationId, UnitType type) throws IDNotRecognisedException, InvalidUnitException, IllegalStateException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
         // Check to see if the station exists
-        // Find the index of the specified station
+        // and find the index of the specified station
         int stationIndex = findStationIndex(stationId);    // Exception is thrown from within findStationIndex()
 
         // Check if the station is full
@@ -279,16 +277,47 @@ public class CityRescueImpl implements CityRescue {
         }
 
         // Check if the specified unit type is null or not recognised
-        if (type != UnitType.AMBULANCE || type != UnitType.FIRE_ENGINE || type != UnitType.POLICE_CAR) {
+        if (!isKnownUnitType(type)) {
             throw new InvalidUnitException("Unit type is not recognised");
         }
 
+        // Extract the location of the station
+        int[] coordinates = stations[stationIndex].getCoordinates();
         // Create a new unit of the specified type
-        switch (type) {
-            case AMBULANCE: Ambulance newUnit = new Ambulance(); break;
-            case FIRE_ENGINE: Fire_Engine newUnit = new Fire_Engine(); break;
-            case POLICE_CAR: Police_Car newUnit = new Police_Car(); break;
+        Unit newUnit = switch (type) {
+            case AMBULANCE -> new Ambulance(coordinates[0], coordinates[1], stationId, UnitStatus.IDLE);
+            case FIRE_ENGINE -> new Fire_Engine(coordinates[0], coordinates[1], stationId, UnitStatus.IDLE);
+            case POLICE_CAR -> new Police_Car(coordinates[0], coordinates[1], stationId, UnitStatus.IDLE);
+        };
+
+        // Add this new unit to the array of units
+        units[newUnit.getUnitId()] = newUnit;
+
+        // Return this unit's ID
+        return newUnit.getUnitId();
+    }
+
+    /**
+     * Determines if the specified unit type is correct.
+     * @param unitType Unit type in question.
+     * @return True if the specified unit type is correct, otherwise false.
+     */
+    boolean isKnownUnitType(UnitType unitType) {
+        // Generate an array of all unit types
+        UnitType[] unitTypes = UnitType.values();
+
+        // Initialise some variables used in the loop
+        boolean isKnownType = false;
+        int i = 0;
+        // Check if the specified type is known
+        while (!isKnownType && i < unitTypes.length) {
+            if (unitType == unitTypes[i]) {
+                isKnownType = true;
+            }
+            i++;
         }
+
+        return isKnownType;
     }
 
     @Override
