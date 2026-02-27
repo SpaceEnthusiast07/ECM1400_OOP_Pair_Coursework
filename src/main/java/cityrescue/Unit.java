@@ -16,7 +16,7 @@ public abstract class Unit {
     // Indicates which station this unit belongs to
     private int belongsToStation;
     // Status indicates what the unit is currently doing
-    UnitStatus status;
+    private UnitStatus status;
 
     /**
      * Sets up a new unit by giving it a unique ID, location, assigning it to a
@@ -54,6 +54,14 @@ public abstract class Unit {
     }
 
     /**
+     * Allows the client to see what state this unit is currently in.
+     * @return The unit's current state.
+     */
+    public UnitStatus getStatus() {
+        return this.status;
+    }
+
+    /**
      * Updates the units location.
      * @param coordinate The new location of the unit.
      */
@@ -69,7 +77,6 @@ public abstract class Unit {
     boolean canHandle(IncidentType incidentType) {
         return false;
     }
-
 
     /**
      * Allows the client to obtain the ID of the station that owns this unit.
