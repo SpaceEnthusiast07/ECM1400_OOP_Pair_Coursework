@@ -426,6 +426,9 @@ public class CityRescueImpl implements CityRescue {
         // Now, update the units home station ID
         unit.setHomeStationId(newStationId);
 
+        // Move the unit to the destination station
+        unit.setUnitCoordinates(destinationStation.getCoordinates());
+
         // Increment the number of units for the new station
         destinationStation.incrementNumberOfUnits();
     }
