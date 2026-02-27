@@ -1,5 +1,8 @@
 package cityrescue;
 
+/**
+ * TODO: Describe this class.
+ */
 public class Station {
     // Declared variable to hold station name
     private String name;
@@ -11,36 +14,57 @@ public class Station {
     private static int numberOfStations = 0;
     // Unique id for each station
     private final int stationId;
-
-    // Number of units currently occupying this station
+    // Number of units currently owned by this station
     private int numberOfUnits = 0;
 
-    // Constructor
+    /**
+     * Sets the name, location and ID for this station.
+     * @param name The name for this station.
+     * @param x The x-coordinate of this station.
+     * @param y The y-coordinate of this station.
+     */
     public Station(String name, int x, int y) {
         this.name = name;
         this.coordinates = new int[]{x,y};
         this.stationId = ++numberOfStations;
     }
 
+    /**
+     * Allows client to know how many stations there are in the simulation.
+     * @return The number of stations in the simulation.
+     */
     public static int getNumberOfStations() {
         return numberOfStations;
     }
 
-    // Sets the maximum number of units this station can hold
+    /**
+     * Adjusts the maximum number of units this station can own.
+     * @param maxUnits The new maximum number of units. Must be greater than or equal to the current max.
+     */
     public void setMaxUnits(int maxUnits) {
         this.maxUnits = maxUnits;
     }
 
-    // Returns this station's id
+    /**
+     * Allows the client to obtain this station's ID.
+     * @return This station's ID.
+     */
     public int getStationId() {
         return this.stationId;
     }
 
-    // Getter function for this station's location
+    /**
+     * Allows the client to obtain the location of this station.
+     * @return The location of this station as an integer array.
+     */
     public int[] getCoordinates() {
         return coordinates;
     }
 
+    /**
+     * Allows the client to obtain the current number of units this station owns.
+     * @return The number of units in this station.
+     */
     public int getNumberOfUnits() {
         return this.numberOfUnits;
     }
