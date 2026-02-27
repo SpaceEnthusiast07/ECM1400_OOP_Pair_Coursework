@@ -68,4 +68,28 @@ public class Station {
     public int getNumberOfUnits() {
         return this.numberOfUnits;
     }
+
+    /**
+     * Allows the client to adjust the number of units this station owns.
+     * @param newNumberOfUnits The new number of units this station owns.
+     */
+    public void setNumberOfUnits(int newNumberOfUnits) {
+        this.numberOfUnits = newNumberOfUnits;
+    }
+
+    /**
+     * Decrements the number of units this station owns. Used when transferring a unit
+     * from one station to another.
+     */
+    public void decrementNumberOfUnits() {
+        this.numberOfUnits--;
+    }
+
+    /**
+     * Increments the number of units this station owns. Used when transferring a unit
+     * from one station to another.
+     */
+    public void incrementNumberOfUnits() {
+        this.numberOfUnits++;
+    }
 }
