@@ -3,6 +3,8 @@ package cityrescue;
 import cityrescue.enums.*;
 import cityrescue.exceptions.*;
 
+import java.util.Arrays;
+
 /**
  * CityRescueImpl (Starter)
  *
@@ -35,7 +37,6 @@ public class CityRescueImpl implements CityRescue {
      */
     @Override
     public void initialise(int width, int height) throws InvalidGridException {
-        throw new UnsupportedOperationException("Not implemented yet");
         // Throw exception if width and height are invalid
         if (width <= 0 || height <= 0) {
             throw new InvalidGridException("Invalid width or height.");
@@ -49,6 +50,7 @@ public class CityRescueImpl implements CityRescue {
             // Reset tick to 0
             // TODO: Reset tick to 0
         }
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -320,10 +322,74 @@ public class CityRescueImpl implements CityRescue {
         return isKnownType;
     }
 
+    /**
+     * Retires (deletes) a unit if it exists and is free.
+     * @param unitId The unit's ID to decommission.
+     * @throws IDNotRecognisedException Thrown when the specified unit ID doesn't exist.
+     * @throws IllegalStateException Thrown when the unit is not free.
+     */
     @Override
     public void decommissionUnit(int unitId) throws IDNotRecognisedException, IllegalStateException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Check if the unit exists
+        int unitIndex = findUnitIndex(unitId);
+
+        // Check if the unit is busy
+        if (units[unitIndex].getStatus() == UnitStatus.EN_ROUTE  ||  units[unitIndex].getStatus() == UnitStatus.AT_SCENE) {
+            throw new IllegalStateException("Unit is not free");
+        }
+
+        // Get the location of the unit
+        int[] unitLocation = units[unitIndex].getUnitCoordinates();
+        // Get the location of the station
+        int[] stationLocation = stations[findStationIndex(units[unitIndex].getBelongsToStation())].getCoordinates();
+
+        // Only remove the obstacle at the unit's location if it is not at the station
+        if (!Arrays.equals(stationLocation, unitLocation)) {
+            cityMap.removeObstacle(unitLocation[0], unitLocation[1]);
+        }
+
+        // Now, remove the unit from the array of units
+        // This is done by shifting all subsequent units down the unit array
+        while (units[unitIndex] != null && unitIndex < units.length-1) {
+            // Shift next unit down to the current position in the unit array
+            units[unitIndex] = units[unitIndex+1];
+
+            unitIndex++;
+
+            // Delete last station
+            if (unitIndex == units.length-1) {
+                units[unitIndex] = null;
+            }
+        }
+    }
+
+    /**
+     * Uses linear search to search through the array of units to find which index
+     * the specified unit is at.
+     * @param unitId The unit's ID to find.
+     * @return The index which the specified unit is at.
+     * @throws IDNotRecognisedException Thrown when no unit exists with the provided ID.
+     */
+    public int findUnitIndex(int unitId) throws IDNotRecognisedException {
+        // Initial value of unitIndex
+        int unitIndex = 0;
+        // Variable to see if unit is found
+        boolean isFound = false;
+        // Try to find the unit with the specified ID
+        while (!isFound && unitIndex < units.length) {
+            if (units[unitIndex].getUnitId() == unitId) {
+                isFound = true;
+            } else {
+                unitIndex++;
+            }
+        }
+
+        // If the unit is not found, throw an exception
+        if (!isFound) {
+            throw new IDNotRecognisedException("Unit with "+unitId+" ID is not found");
+        }
+
+        return unitIndex;
     }
 
     @Override
