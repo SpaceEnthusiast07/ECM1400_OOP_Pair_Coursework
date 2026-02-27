@@ -14,7 +14,7 @@ public abstract class Unit {
     // Number of units currently in existence
     private static int numberOfUnits;
     // Indicates which station this unit belongs to
-    private int belongsToStation;
+    private int homeStationId;
     // Status indicates what the unit is currently doing
     private UnitStatus status;
 
@@ -23,16 +23,16 @@ public abstract class Unit {
      * station and initialising its status.
      * @param x x-coordinate of location.
      * @param y y-coordinate of location.
-     * @param belongsToStation Which station owns this unit.
+     * @param homeStationId Which station owns this unit.
      * @param status The current state of the unit.
      */
-    public Unit(int x, int y, int belongsToStation, UnitStatus status) {
+    public Unit(int x, int y, int homeStationId, UnitStatus status) {
         // Give this new station an ID
         this.unitId = ++numberOfUnits;
         // Set the new units location
         this.coordinate = new int[] {x, y};
         // Indicate which station it belongs to
-        this.belongsToStation = belongsToStation;
+        this.homeStationId = homeStationId;
         // Set the initial state of the units status
         this.status = status;
     }
@@ -82,7 +82,15 @@ public abstract class Unit {
      * Allows the client to obtain the ID of the station that owns this unit.
      * @return The station ID that owns this unit.
      */
-    public int getBelongsToStation() {
-        return belongsToStation;
+    public int getHomeStationId() {
+        return homeStationId;
+    }
+
+    /**
+     * Changes this unit's home station.
+     * @param newHomeStationId The new station's id.
+     */
+    public void setHomeStationId(int newHomeStationId) {
+        this.homeStationId = newHomeStationId;
     }
 }

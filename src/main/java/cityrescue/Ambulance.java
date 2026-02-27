@@ -14,11 +14,11 @@ public class Ambulance extends Unit {
      * Calls the Unit class constructor to initialise this new unit.
      * @param x x-coordinate of location.
      * @param y y-coordinate of location.
-     * @param belongsToStation Which station owns this unit.
+     * @param homeStationId Which station owns this unit.
      * @param status The current state of the unit.
      */
-    public Ambulance(int x, int y, int belongsToStation, UnitStatus status) {
-        super(x, y, belongsToStation, status);
+    public Ambulance(int x, int y, int homeStationId, UnitStatus status) {
+        super(x, y, homeStationId, status);
     }
 
     /**

@@ -14,11 +14,11 @@ public class Police_Car extends Unit {
      * Calls the Unit class' constructor to initialise this new unit.
      * @param x x-coordinate of location.
      * @param y y-coordinate of location.
-     * @param belongsToStation Which station owns this unit.
+     * @param homeStationId Which station owns this unit.
      * @param status The current state of the unit.
      */
-    public Police_Car(int x, int y, int belongsToStation, UnitStatus status) {
-        super(x, y, belongsToStation, status);
+    public Police_Car(int x, int y, int homeStationId, UnitStatus status) {
+        super(x, y, homeStationId, status);
     }
 
     /**
