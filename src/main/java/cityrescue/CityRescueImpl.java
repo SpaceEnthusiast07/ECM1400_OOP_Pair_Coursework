@@ -341,7 +341,7 @@ public class CityRescueImpl implements CityRescue {
         // Get the location of the unit
         int[] unitLocation = units[unitIndex].getUnitCoordinates();
         // Get the location of the station
-        int[] stationLocation = stations[findStationIndex(units[unitIndex].getBelongsToStation())].getCoordinates();
+        int[] stationLocation = stations[findStationIndex(units[unitIndex].getHomeStationId())].getCoordinates();
 
         // Only remove the obstacle at the unit's location if it is not at the station
         if (!Arrays.equals(stationLocation, unitLocation)) {
@@ -392,10 +392,42 @@ public class CityRescueImpl implements CityRescue {
         return unitIndex;
     }
 
+    /**
+     * Transfer a unit to a new home station.
+     * @param unitId The unit to transfer.
+     * @param newStationId The destination station's ID.
+     * @throws IDNotRecognisedException Thrown when either the unit or station doesn't exist.
+     * @throws IllegalStateException Thrown when either the unit is not busy or the destination station is full.
+     */
     @Override
     public void transferUnit(int unitId, int newStationId) throws IDNotRecognisedException, IllegalStateException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Throw exception if the unit to move doesn't exist
+        int unitIndex = findUnitIndex(unitId);
+        // Throw exception if the destination station doesn't exist
+        int newStationIndex = findStationIndex(newStationId);
+
+        // Store the unit and station to make the code easier to read
+        Unit unit = units[unitIndex];
+        Station destinationStation = stations[newStationIndex];
+
+        // Check if the unit is busy
+        if (unit.getStatus() != UnitStatus.IDLE) {
+            throw new IllegalStateException("Unit is not idle");
+        }
+
+        // Check if the destination station is full
+        if (destinationStation.getNumberOfUnits() == MAX_UNITS) {
+            throw new IllegalStateException("Station is full");
+        }
+
+        // Decrement the number of units for the old station
+        stations[findStationIndex(unit.getHomeStationId())].decrementNumberOfUnits();
+
+        // Now, update the units home station ID
+        unit.setHomeStationId(newStationId);
+
+        // Increment the number of units for the new station
+        destinationStation.incrementNumberOfUnits();
     }
 
     @Override
