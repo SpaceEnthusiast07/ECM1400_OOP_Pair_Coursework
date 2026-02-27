@@ -3,6 +3,9 @@ package cityrescue;
 import cityrescue.enums.IncidentType;
 import cityrescue.enums.UnitStatus;
 
+/**
+ * TODO: Describe this class.
+ */
 public class Fire_Engine extends Unit {
     // Time taken to resolve an incident
     private final int TICKS_AT_SCENE = 4;
