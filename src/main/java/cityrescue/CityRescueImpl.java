@@ -21,23 +21,34 @@ public class CityRescueImpl implements CityRescue {
     private CityMap cityMap;
     // Initialise an array to hold all the stations
     private Station[] stations = new Station[MAX_STATIONS];
+    // Initialise an array to hold all the units in the simulation
+    private Unit[] units = new Unit[MAX_UNITS];
+    // Initialise an array to hold all the incidents in the simulation
+    private Incident[] incidents = new Incident[MAX_INCIDENTS];
 
     /**
-     * TODO: Describe the initialise method in one sentence.
-     * @param width
-     * @param height
-     * @throws InvalidGridException
+     * TODO: Complete initialise function!
+     * Starts a new, blank simulation.
+     * @param width The width of the board.
+     * @param height The height of the board.
+     * @throws InvalidGridException Thrown when the specified width or height are 0 or less.
      */
     @Override
     public void initialise(int width, int height) throws InvalidGridException {
+        throw new UnsupportedOperationException("Not implemented yet");
         // Throw exception if width and height are invalid
         if (width <= 0 || height <= 0) {
             throw new InvalidGridException("Invalid width or height.");
         } else {
-            // Initialise a new CitMap
-            // ...
+            // Clear all stations, units and incidents
+            // TODO: Clear all stations, units and incidents
+
+            // Create a new city map with the specified width and height
+            cityMap = new CityMap(width, height);
+
+            // Reset tick to 0
+            // TODO: Reset tick to 0
         }
-        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -245,10 +256,39 @@ public class CityRescueImpl implements CityRescue {
         return allStationIds;
     }
 
+    /**
+     * TODO
+     * @param stationId Identifies which station to add the unit to.
+     * @param type The type of unit to add.
+     * @return The unit's ID starting from 1.
+     * @throws IDNotRecognisedException Thrown when a station with this ID doesn't exist.
+     * @throws InvalidUnitException Thrown when the specified unit is null or not recognised.
+     * @throws IllegalStateException Thrown when the specified station is at capacity (full).
+     */
     @Override
     public int addUnit(int stationId, UnitType type) throws IDNotRecognisedException, InvalidUnitException, IllegalStateException {
         // TODO: implement
         throw new UnsupportedOperationException("Not implemented yet");
+        // Check to see if the station exists
+        // Find the index of the specified station
+        int stationIndex = findStationIndex(stationId);    // Exception is thrown from within findStationIndex()
+
+        // Check if the station is full
+        if (stations[stationIndex].getNumberOfUnits() == MAX_UNITS) {
+            throw new IllegalStateException("Station is full");
+        }
+
+        // Check if the specified unit type is null or not recognised
+        if (type != UnitType.AMBULANCE || type != UnitType.FIRE_ENGINE || type != UnitType.POLICE_CAR) {
+            throw new InvalidUnitException("Unit type is not recognised");
+        }
+
+        // Create a new unit of the specified type
+        switch (type) {
+            case AMBULANCE: Ambulance newUnit = new Ambulance(); break;
+            case FIRE_ENGINE: Fire_Engine newUnit = new Fire_Engine(); break;
+            case POLICE_CAR: Police_Car newUnit = new Police_Car(); break;
+        }
     }
 
     @Override

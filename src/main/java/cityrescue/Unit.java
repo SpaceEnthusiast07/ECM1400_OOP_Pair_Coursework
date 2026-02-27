@@ -9,10 +9,17 @@ public abstract class Unit {
     private int[] coordinate;
     // Number of units currently in existence
     private static int numberOfUnits;
+    // Indicates which station this unit belongs to
+    private int belongsToStation;
 
     // Constructor
-    public Unit() {
+    public Unit(int x, int y, int belongsToStation) {
+        // Give this new station an ID
         this.unitId = ++numberOfUnits;
+        // Set the new units location
+        this.coordinate = new int[] {x, y};
+        // Indicate which station it belongs to
+        this.belongsToStation = belongsToStation;
     }
 
     // Getter method for unit id
@@ -28,5 +35,10 @@ public abstract class Unit {
     // Checks whether this unit type can handle this type of incident
     boolean canHandle(IncidentType incidentType) {
         return false;
+    }
+
+    // Getter method for the belongsToStation field
+    public int getBelongsToStation() {
+        return belongsToStation;
     }
 }
