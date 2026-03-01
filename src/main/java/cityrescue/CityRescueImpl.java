@@ -599,10 +599,63 @@ public class CityRescueImpl implements CityRescue {
         return newIncident.getIncidentId();
     }
 
+    /**
+     * Cancels an incident if it is currently reported or dispatched, and releases the assigned
+     * unit if dispatched.
+     * @param incidentId The incident's ID to cancel.
+     * @throws IDNotRecognisedException Thrown when the incident with the specified ID does not exist.
+     * @throws IllegalStateException Thrown when either the incident's status is not reported or dispatched.
+     */
     @Override
     public void cancelIncident(int incidentId) throws IDNotRecognisedException, IllegalStateException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Check the incident exists
+        int incidentIndex = findIncidentIndex(incidentId);
+        Incident incident = incidents[incidentIndex];
+
+        // Check if the incident is not reported nor dispatched
+        if (incident.getIncidentStatus() != IncidentStatus.REPORTED && incident.getIncidentStatus() != IncidentStatus.DISPATCHED) {
+            throw new IllegalStateException("Incident must be reported or dispatched to be able to cancel it");
+        }
+
+        // If the incident is dispatched, release the unit assigned to it
+        if (incident.getIncidentStatus() == IncidentStatus.DISPATCHED) {
+            // Find the index of the unit assigned to this incident
+            int unitIndex = findUnitIndex(incident.getAssignedUnitId());
+            // Set this unit to IDLE
+            units[unitIndex].setStatus(UnitStatus.IDLE);
+        }
+
+        // Update the status of the incident to CANCELLED
+        incident.setIncidentStatus(IncidentStatus.CANCELLED);
+    }
+
+    /**
+     * Uses linear search to search through the array of incidents to find which index
+     * the specified incident is at.
+     * @param incidentId The incident's ID to find.
+     * @return The index which the specified incident is at.
+     * @throws IDNotRecognisedException Thrown when no incident exists with the provided ID.
+     */
+    public int findIncidentIndex(int incidentId) throws IDNotRecognisedException {
+        // Initial value of incidentIndex
+        int incidentIndex = 0;
+        // Variable to see if incident is found
+        boolean isFound = false;
+        // Try to find the incident with the specified ID
+        while (!isFound && incidentIndex < incidents.length) {
+            if (incidents[incidentIndex].getIncidentId() == incidentId) {
+                isFound = true;
+            } else {
+                incidentIndex++;
+            }
+        }
+
+        // If the incident is not found, throw an exception
+        if (!isFound) {
+            throw new IDNotRecognisedException("Incident with "+incidentId+" ID is not found");
+        }
+
+        return incidentIndex;
     }
 
     @Override
