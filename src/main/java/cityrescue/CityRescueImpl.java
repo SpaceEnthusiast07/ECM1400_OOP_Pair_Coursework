@@ -725,10 +725,82 @@ public class CityRescueImpl implements CityRescue {
                 incidentStatus, assignedUnitID);
     }
 
+    /**
+     * Assigns any IDLE units to any REPORTED incidents using the manhattan distance between
+     * units and incidents, and any tie-breaking rules when required.
+     */
     @Override
     public void dispatch() {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // TODO: Logic needs verifying!
+
+        // Declare variables that are used within these loops to make the code easier to read
+        Incident currentIncident;
+        Unit currentUnit;
+
+        // Declare a variable to hold the most suitable unit for the current incident
+        Unit bestUnit = null;
+        // Declare a variable to hold the shortest distance between a unit and the current incident
+        int bestUnitDistance;
+
+        // Iterate through each REPORTED incident
+        int incidentIndex = 0;
+        while (incidents[incidentIndex] != null && incidentIndex < incidentsInSimulation) {
+            // Check if the current incident has status REPORTED
+            if (incidents[incidentIndex].getIncidentStatus() == IncidentStatus.REPORTED) {
+                // Store the memory address of the current incident to make the code easier to read
+                currentIncident = incidents[incidentIndex];
+
+                // Reset the best, shortest manhattan distance tracker
+                bestUnitDistance = 1000000000;
+
+                // Iterate through each unit to find the best one to dispatch for this incident
+                int unitIndex = 0;
+                while (units[unitIndex] != null && unitIndex < unitsInSimulation) {
+                    // Check if this unit is IDLE
+                    if (units[unitIndex].getStatus() == UnitStatus.IDLE) {
+                        // Store the memory address of the current unit to make the code easier to read
+                        currentUnit = units[unitIndex];
+
+                        // Calculate the manhattan distance between this unit and the incident
+                        int currentDistance = Math.abs(currentIncident.getIncidentLocation()[0] - currentUnit.getUnitCoordinates()[0]) + Math.abs(currentIncident.getIncidentLocation()[1] - currentUnit.getUnitCoordinates()[1]);
+
+                        // Check if the current distance and best distance are equal
+                        if (currentDistance == bestUnitDistance) {
+                            // Check if the two units have the same ID
+                            if (bestUnit.getUnitId() == currentUnit.getUnitId()) {
+                                // Check which of the two units has the lowest home station ID
+                                if (currentUnit.getHomeStationId() < bestUnit.getHomeStationId()) {
+                                    // Now, assign the new best unit
+                                    bestUnit = currentUnit;
+                                    bestUnitDistance = currentDistance;
+                                }
+                            }
+                            else if (currentUnit.getUnitId() < bestUnit.getUnitId()) {
+                                // Now, assign the new best unit
+                                bestUnit = currentUnit;
+                                bestUnitDistance = currentDistance;
+                            }
+                        }
+                        // Check if this newly calculated distance is shorter
+                        else if (currentDistance < bestUnitDistance) {
+                            // Update the best unit and the best distance variables
+                            bestUnit = currentUnit;
+                            bestUnitDistance = currentDistance;
+                        }
+                    }
+                }
+
+                // Now that we have found the best unit for this incident,
+                // set this incident to be assigned to this unit
+                bestUnit.setAssignedIncidentId(currentIncident.getIncidentId());
+                currentIncident.setAssignedUnitId(bestUnit.getUnitId());
+
+                // Change the status of the current incident to DISPATCHED
+                currentIncident.setIncidentStatus(IncidentStatus.DISPATCHED);
+            }
+
+            incidentIndex++;
+        }
     }
 
     @Override
