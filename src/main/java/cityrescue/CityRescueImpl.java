@@ -308,6 +308,9 @@ public class CityRescueImpl implements CityRescue {
         // Add this new unit to the array of units
         units[newUnit.getUnitId()] = newUnit;
 
+        // Increment the tracker for the number of units in this simulation
+        unitsInSimulation++;
+
         // Return this unit's ID
         return newUnit.getUnitId();
     }
@@ -374,6 +377,9 @@ public class CityRescueImpl implements CityRescue {
                 units[unitIndex] = null;
             }
         }
+
+        // Decrement the tracker for the number of units in this simulation
+        unitsInSimulation--;
     }
 
     /**
