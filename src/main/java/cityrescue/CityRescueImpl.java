@@ -664,10 +664,24 @@ public class CityRescueImpl implements CityRescue {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    /**
+     * Produces a list of all the incident IDs in the simulation.
+     * @return An array of integers representing all the incident's IDs.
+     */
     @Override
     public int[] getIncidentIds() {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Initialise an array to hold all the incident IDs
+        int[] allIncidentIds = new int[incidentsInSimulation];
+
+        // Iterate through each incident and add its ID to the array above
+        int i = 0;
+        while (incidents[i] != null && i < incidentsInSimulation) {
+            allIncidentIds[i] = incidents[i].getIncidentId();
+            i++;
+        }
+
+        // Return the array of incident IDs
+        return allIncidentIds;
     }
 
     @Override
