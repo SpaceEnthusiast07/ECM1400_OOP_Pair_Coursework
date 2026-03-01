@@ -261,10 +261,10 @@ public class CityRescueImpl implements CityRescue {
     @Override
     public int[] getStationIds() {
         // Initialise an array to hold the station ids
-        int[] allStationIds = new int[stations.length];
+        int[] allStationIds = new int[stationsInSimulation];
 
         // Extract the station ids
-        for (int i = 0; i < allStationIds.length; i++) {
+        for (int i = 0; i < stationsInSimulation; i++) {
             allStationIds[i] = stations[i].getStationId();
         }
 
