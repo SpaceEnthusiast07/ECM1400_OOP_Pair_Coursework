@@ -19,6 +19,12 @@ public class CityRescueImpl implements CityRescue {
     private final int MAX_STATIONS = 20;      // Max number of stations in the program
     private final int MAX_INCIDENTS = 200;    // Max number of incidents in the program
 
+    // Variables used to keep track of the number of stations/units/incidents in the simulation
+    // These variables will be incremented/decremented every time a station/unit/incident is created/deleted
+    private int stationsInSimulation = 0;
+    private int unitsInSimulation = 0;
+    private int incidentsInSimulation = 0;
+
     // Declare the city map
     private CityMap cityMap;
     // Initialise an array to hold all the stations
