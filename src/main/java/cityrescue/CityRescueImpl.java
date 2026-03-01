@@ -7,13 +7,11 @@ import java.util.Arrays;
 
 /**
  * CityRescueImpl (Starter)
- *
  * Your task is to implement the full specification.
  * You may add additional classes in any package(s) you like.
  */
 public class CityRescueImpl implements CityRescue {
-
-    // TODO: add fields (map, arrays for stations/units/incidents, counters, tick, etc.)
+    // TODO: add fields (counters, tick, etc.)
     // Array size constants:
     private final int MAX_UNITS = 50;         // Maximum number of units any station can own
     private final int MAX_STATIONS = 20;      // Max number of stations in the program
@@ -28,11 +26,11 @@ public class CityRescueImpl implements CityRescue {
     // Declare the city map
     private CityMap cityMap;
     // Initialise an array to hold all the stations
-    private Station[] stations = new Station[MAX_STATIONS];
+    private Station[] stations;
     // Initialise an array to hold all the units in the simulation
-    private Unit[] units = new Unit[MAX_UNITS];
+    private Unit[] units;
     // Initialise an array to hold all the incidents in the simulation
-    private Incident[] incidents = new Incident[MAX_INCIDENTS];
+    private Incident[] incidents;
 
     /**
      * TODO: Complete initialise function!
@@ -48,7 +46,9 @@ public class CityRescueImpl implements CityRescue {
             throw new InvalidGridException("Invalid width or height.");
         } else {
             // Clear all stations, units and incidents
-            // TODO: Clear all stations, units and incidents
+            stations = new Station[MAX_STATIONS];
+            units = new Unit[MAX_UNITS];
+            incidents = new Incident[MAX_INCIDENTS];
 
             // Create a new city map with the specified width and height
             cityMap = new CityMap(width, height);
@@ -133,7 +133,7 @@ public class CityRescueImpl implements CityRescue {
         // Retrieve the grid size
         int[] gridSize = getGridSize();
 
-        // Check if the provided coordinates are within the bounds of the map
+        // Check if the provided coordinates are outside the bounds of the map
         if (x < 0 || y < 0 || x >= gridSize[0] || y >= gridSize[1]) {
             throw new InvalidLocationException("Invalid location");
         }
@@ -141,6 +141,11 @@ public class CityRescueImpl implements CityRescue {
         // Check if an obstacle is present at the provided coordinates
         if (cityMap.isObstaclePresent(x,y)) {
             throw new InvalidLocationException("Obstacle exists in location");
+        }
+
+        // Check if there is space to add another station
+        if (stationsInSimulation == MAX_STATIONS) {
+            throw new IllegalStateException("Reached maximum number of stations in simulation");
         }
 
         // Create a new station
@@ -273,7 +278,7 @@ public class CityRescueImpl implements CityRescue {
     }
 
     /**
-     * TODO
+     * Creates and adds a new unit to the simulation.
      * @param stationId Identifies which station to add the unit to.
      * @param type The type of unit to add.
      * @return The unit's ID starting from 1.
@@ -295,6 +300,11 @@ public class CityRescueImpl implements CityRescue {
         // Check if the specified unit type is null or not recognised
         if (!isKnownUnitType(type)) {
             throw new InvalidUnitException("Unit type is not recognised");
+        }
+
+        // Check if there is space to add another unit
+        if (unitsInSimulation == MAX_UNITS) {
+            throw new IllegalStateException("Reached maximum number of units in simulation");
         }
 
         // Extract the location of the station
@@ -323,14 +333,14 @@ public class CityRescueImpl implements CityRescue {
      */
     boolean isKnownUnitType(UnitType unitType) {
         // Generate an array of all unit types
-        UnitType[] unitTypes = UnitType.values();
+        UnitType[] allUnitTypes = UnitType.values();
 
         // Initialise some variables used in the loop
         boolean isKnownType = false;
         int i = 0;
         // Check if the specified type is known
-        while (!isKnownType && i < unitTypes.length) {
-            if (unitType == unitTypes[i]) {
+        while (!isKnownType && i < allUnitTypes.length) {
+            if (unitType == allUnitTypes[i]) {
                 isKnownType = true;
             }
             i++;
@@ -534,10 +544,59 @@ public class CityRescueImpl implements CityRescue {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    /**
+     * Creates and adds another incident to the simulation.
+     * @param type The type of incident to report.
+     * @param severity The severity of this incident.
+     * @param x x-coordinate of this incident.
+     * @param y y-coordinate of this incident.
+     * @return An integer representing the newly created incident.
+     * @throws InvalidSeverityException Thrown when the specified severity is less
+     * than 1 or greater than 5.
+     * @throws InvalidLocationException Thrown when either the location provided is outside the
+     * bounds of the map or there is an obstacle present at the location.
+     */
     @Override
     public int reportIncident(IncidentType type, int severity, int x, int y) throws InvalidSeverityException, InvalidLocationException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Check if the incident type is null
+        if (type == null) {
+            throw new IllegalStateException("Incident type cannot be null");
+        }
+
+        // Check if the severity is outside the predefined bounds
+        if (severity < 1 || severity > 5) {
+            throw new InvalidSeverityException("Severity must be between 1 and 5");
+        }
+
+        // Retrieve the grid size
+        int[] gridSize = getGridSize();
+
+        // Check if the provided coordinates are outside the bounds of the map
+        if (x < 0 || y < 0 || x >= gridSize[0] || y >= gridSize[1]) {
+            throw new InvalidLocationException("Invalid location");
+        }
+
+        // Check if the location is blocked
+        if (cityMap.isObstaclePresent(x, y)) {
+            throw new InvalidLocationException("Obstacle is present at the provided location");
+        }
+
+        // Check if there is space to add another incident
+        if (incidentsInSimulation == MAX_INCIDENTS) {
+            throw new IllegalStateException("Reached maximum number of incidents in simulation");
+        }
+
+        // Create a new incident
+        Incident newIncident = new Incident(type, severity, IncidentStatus.REPORTED, x, y);
+
+        // Add this new incident to the array of incidents
+        incidents[incidentsInSimulation] = newIncident;
+
+        // Increment the tracker for the number of incidents in the simulation
+        incidentsInSimulation++;
+
+        // Return this new incident's ID
+        return newIncident.getIncidentId();
     }
 
     @Override
