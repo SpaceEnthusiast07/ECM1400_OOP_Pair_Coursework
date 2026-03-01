@@ -481,10 +481,23 @@ public class CityRescueImpl implements CityRescue {
         }
     }
 
+    /**
+     * Produces a list of all unit IDs in ascending order.
+     * @return An integer array of all unit IDs.
+     */
     @Override
     public int[] getUnitIds() {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Initialise an array to hold all the unit IDs
+        int[] unitIds = new int[unitsInSimulation];
+
+        // Iterate through the array of units, adding each ID to the array of IDs
+        int i = 0;
+        while (units[i] != null && i < unitsInSimulation) {
+            unitIds[i] = units[i].getUnitId();
+        }
+
+        // Return the array of unit IDs
+        return unitIds;
     }
 
     @Override
