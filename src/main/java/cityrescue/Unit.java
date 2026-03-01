@@ -18,6 +18,8 @@ public abstract class Unit {
     private int homeStationId;
     // Status indicates what the unit is currently doing
     private UnitStatus status;
+    // The ID of the incident that this unit has been assigned to
+    int assignedIncidentId;
 
     /**
      * Sets up a new unit by giving it a unique ID, location, assigning it to a
@@ -108,4 +110,20 @@ public abstract class Unit {
      * @return A string representing the unit type.
      */
     public abstract UnitType getUnitType();
+
+    /**
+     * Allows the client to obtain the ID for the incident this unit has been assigned to.
+     * @return An integer representing the ID for the assigned incident.
+     */
+    public int getAssignedIncidentId() {
+        return this.assignedIncidentId;
+    }
+
+    /**
+     * Allows the client to set which incident this unit has been assigned to.
+     * @param incidentId The ID of the incident that this unit has been assigned to.
+     */
+    public void setAssignedIncidentId(int incidentId) {
+        this.assignedIncidentId = incidentId;
+    }
 }
