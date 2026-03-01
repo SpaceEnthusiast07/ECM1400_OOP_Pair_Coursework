@@ -433,21 +433,33 @@ public class CityRescueImpl implements CityRescue {
         destinationStation.incrementNumberOfUnits();
     }
 
+    /**
+     * Toggles a unit's status between OUT_OF_SERVICE and IDLE.
+     * @param unitId The unit of which to toggle its status between OUT_OF_SERVICE and IDLE.
+     * @param outOfService Whether to set to OUT_OF_SERVICE or IDLE.
+     * @throws IDNotRecognisedException Thrown when the unit with the specified ID doesn't exist.
+     * @throws IllegalStateException Thrown when the client requests this unit to be
+     * OUT_OF_SERVICE, but this unit is not currently IDLE.
+     */
     @Override
     public void setUnitOutOfService(int unitId, boolean outOfService) throws IDNotRecognisedException, IllegalStateException {
-        // TODO: implement
-
         // Check units exists
         int unitIndex = findUnitIndex(unitId);
+        Unit unit = units[unitIndex];
 
         // Check if the unit is not idle
-        if (outOfService && (units[unitIndex].getStatus() != UnitStatus.IDLE)) {
+        if (outOfService && (unit.getStatus() != UnitStatus.IDLE)) {
             throw new IllegalStateException("Unit is not idle");
         }
 
-        // ...
-
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Now, set this unit's status to OUT_OF_SERVICE if outOfService is true
+        if (outOfService) {
+            unit.setStatus(UnitStatus.OUT_OF_SERVICE);
+        }
+        // Else, set this unit's status to IDLE
+        else {
+            unit.setStatus(UnitStatus.IDLE);
+        }
     }
 
     @Override
