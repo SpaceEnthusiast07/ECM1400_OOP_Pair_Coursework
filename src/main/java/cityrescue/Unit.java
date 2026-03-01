@@ -62,6 +62,14 @@ public abstract class Unit {
     }
 
     /**
+     * Updates the status of the unit.
+     * @param newStatus The new status for the unit.
+     */
+    public void setStatus(UnitStatus newStatus) {
+        this.status = newStatus;
+    }
+
+    /**
      * Updates the units location.
      * @param coordinate The new location of the unit.
      */
