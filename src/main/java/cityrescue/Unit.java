@@ -19,7 +19,7 @@ public abstract class Unit {
     // Status indicates what the unit is currently doing
     private UnitStatus status;
     // The ID of the incident that this unit has been assigned to
-    int assignedIncidentId;
+    private int assignedIncidentId;
 
     /**
      * Sets up a new unit by giving it a unique ID, location, assigning it to a
