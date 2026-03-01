@@ -658,10 +658,32 @@ public class CityRescueImpl implements CityRescue {
         return incidentIndex;
     }
 
+    /**
+     * Updates the severity of the specified incident.
+     * @param incidentId The incident's ID to change.
+     * @param newSeverity The new severity for the incident.
+     * @throws IDNotRecognisedException Thrown when the incident with the provided ID doesn't exist.
+     * @throws InvalidSeverityException Thrown when either the severity is less than 1 or greater than 5.
+     * @throws IllegalStateException Thrown when either the incident is resolved or cancelled.
+     */
     @Override
     public void escalateIncident(int incidentId, int newSeverity) throws IDNotRecognisedException, InvalidSeverityException, IllegalStateException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Check the incident exists
+        int incidentIndex = findIncidentIndex(incidentId);
+        Incident incident = incidents[incidentIndex];
+
+        // Check if the new severity is outside the predefined bounds
+        if (newSeverity < 1 || newSeverity > 5) {
+            throw new InvalidSeverityException("Severity must be between 1 and 5");
+        }
+
+        // Check if the incident is resolved or cancelled
+        if (incident.getIncidentStatus() == IncidentStatus.RESOLVED || incident.getIncidentStatus() == IncidentStatus.CANCELLED) {
+            throw new IllegalStateException("Incident must not be resolved or cancelled");
+        }
+
+        // Update the severity of the incident
+        incident.setIncidentSeverity(newSeverity);
     }
 
     /**
