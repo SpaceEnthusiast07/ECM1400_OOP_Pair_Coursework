@@ -2,6 +2,7 @@ package cityrescue;
 
 import cityrescue.enums.IncidentType;
 import cityrescue.enums.UnitStatus;
+import cityrescue.enums.UnitType;
 
 /**
  * TODO: Describe this class.
@@ -106,5 +107,5 @@ public abstract class Unit {
      * Allows the client to obtain the type of unit this unit is.
      * @return A string representing the unit type.
      */
-    public abstract String getUnitType();
+    public abstract UnitType getUnitType();
 }

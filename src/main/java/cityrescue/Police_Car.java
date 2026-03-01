@@ -39,7 +39,7 @@ public class Police_Car extends Unit {
      * @return A string representing the unit type.
      */
     @Override
-    public String getUnitType() {
-        return unitType.toString();
+    public UnitType getUnitType() {
+        return unitType;
     }
 }

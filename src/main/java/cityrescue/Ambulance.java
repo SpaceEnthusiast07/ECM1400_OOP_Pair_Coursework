@@ -39,7 +39,7 @@ public class Ambulance extends Unit {
      * @return A string representing the unit type.
      */
     @Override
-    public String getUnitType() {
-        return unitType.toString();
+    public UnitType getUnitType() {
+        return unitType;
     }
 }
