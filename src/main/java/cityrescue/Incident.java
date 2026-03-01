@@ -16,7 +16,7 @@ public class Incident {
     // Type of incident
     private IncidentType incidentType;
     // ID of this incident
-    private int incidentId;
+    private final int incidentId;
     // Number of incidents reported since the first simulation start up
     private static int numberOfIncidents = 0;
     // The ID of the unit assigned to this incident
