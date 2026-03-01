@@ -307,7 +307,7 @@ public class CityRescueImpl implements CityRescue {
         };
 
         // Add this new unit to the array of units
-        units[newUnit.getUnitId()] = newUnit;
+        units[unitsInSimulation] = newUnit;
 
         // Increment the tracker for the number of units in this simulation
         unitsInSimulation++;
