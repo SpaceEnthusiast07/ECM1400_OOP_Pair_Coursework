@@ -501,9 +501,36 @@ public class CityRescueImpl implements CityRescue {
         return unitIds;
     }
 
+    /**
+     * Displays a human-readable output of the specified unit.
+     * @param unitId The ID of the unit to output.
+     * @return The string format of the unit's properties.
+     * @throws IDNotRecognisedException Thrown when the unit with the specified ID doesn't exist.
+     */
     @Override
     public String viewUnit(int unitId) throws IDNotRecognisedException {
-        // TODO: implement
+        // Check the unit exists
+        int unitIndex = findUnitIndex(unitId);
+        Unit unit = units[unitIndex];
+
+        // Retrieve the properties of this unit for formatting
+        String unitType = unit.getUnitType().toString();
+        int homeStationId = unit.getHomeStationId();
+        int[] unitLocation = unit.getUnitCoordinates();
+        String unitStatus = unit.getStatus().toString();
+        int dealingWithIncidentId = -1;    // Not completed yet
+        int numberOfAssignedIncidents = -1;        // Not completed yet
+
+
+        String viewUnitString = String.format("U#%d TYPE=%s HOME=%d LOC=(%d,%d) STATUS=%s INCIDENT=%d WORK=%d",
+                unitId, unitType, homeStationId, unitLocation[0], unitLocation[1], unitStatus,
+                dealingWithIncidentId, numberOfAssignedIncidents);
+
+        /*
+        return viewUnitString;
+         */
+
+        // TODO: Can only complete once completed incident logic.
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
