@@ -4,6 +4,7 @@ import cityrescue.enums.*;
 import cityrescue.exceptions.*;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * CityRescueImpl (Starter)
@@ -706,10 +707,29 @@ public class CityRescueImpl implements CityRescue {
         return allIncidentIds;
     }
 
+    /**
+     * Formats a string with the properties of an incident in a human-readable way.
+     * @param incidentId The incident's ID to output.
+     * @return A string containing the properties of a specified incident formatted correctly.
+     * @throws IDNotRecognisedException Thrown when the incident with the specified ID doesn't exist.
+     */
     @Override
     public String viewIncident(int incidentId) throws IDNotRecognisedException {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Check the incident exists
+        int incidentIndex = findIncidentIndex(incidentId);
+        Incident incident = incidents[incidentIndex];
+
+        // Extract the properties for formatting
+        String incidentType = incident.getIncidentType().toString();
+        int incidentSeverity = incident.getIncidentSeverity();
+        int[] incidentLocation = incident.getIncidentLocation();
+        String incidentStatus = incident.getIncidentStatus().toString();
+        int assignedUnitID = incident.getAssignedUnitId();
+
+        // Return the formatted string
+        return String.format("I#%d TYPE=%s SEV=%d LOC=(%d,%d) STATUS=%s UNIT=%d",
+                incidentId, incidentType, incidentSeverity, incidentLocation[0], incidentLocation[1],
+                incidentStatus, assignedUnitID);
     }
 
     @Override
