@@ -145,11 +145,15 @@ public class CityRescueImpl implements CityRescue {
 
         // Create a new station
         Station newStation = new Station(name, x, y);
+
         // Add this station to the array of stations
         stations[newStation.getStationId()-1] = newStation;
 
         // Mark its location as blocked
         cityMap.addObstacle(x, y);
+
+        // Increment the tracker for the number of stations in this simulation
+        stationsInSimulation++;
 
         // Return the station id
         return newStation.getStationId();
@@ -172,10 +176,10 @@ public class CityRescueImpl implements CityRescue {
         }
 
         // Get the coordinates of the station in question
-        int[] stationCoords = stations[stationIndex].getCoordinates();
+        int[] stationCoordinates = stations[stationIndex].getCoordinates();
 
         // Remove the station from the map
-        cityMap.removeObstacle(stationCoords[0], stationCoords[1]);
+        cityMap.removeObstacle(stationCoordinates[0], stationCoordinates[1]);
 
         // Remove the station from the list
         while (stations[stationIndex] != null && stationIndex < stations.length-1) {
@@ -189,6 +193,9 @@ public class CityRescueImpl implements CityRescue {
                 stations[stationIndex] = null;
             }
         }
+
+        // Decrement the tracker for the number of stations in this simulation
+        stationsInSimulation--;
     }
 
     /**
