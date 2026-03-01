@@ -529,20 +529,13 @@ public class CityRescueImpl implements CityRescue {
         int homeStationId = unit.getHomeStationId();
         int[] unitLocation = unit.getUnitCoordinates();
         String unitStatus = unit.getStatus().toString();
-        int dealingWithIncidentId = -1;    // Not completed yet
-        int numberOfAssignedIncidents = -1;        // Not completed yet
+        int assignedIncidentId = unit.getAssignedIncidentId();
+        String work = "?"; // TODO: Not sure what this property is?! I don't think it is "ticks at scene"!
 
 
-        String viewUnitString = String.format("U#%d TYPE=%s HOME=%d LOC=(%d,%d) STATUS=%s INCIDENT=%d WORK=%d",
+        return String.format("U#%d TYPE=%s HOME=%d LOC=(%d,%d) STATUS=%s INCIDENT=%d WORK=%s",
                 unitId, unitType, homeStationId, unitLocation[0], unitLocation[1], unitStatus,
-                dealingWithIncidentId, numberOfAssignedIncidents);
-
-        /*
-        return viewUnitString;
-         */
-
-        // TODO: Can only complete once completed incident logic.
-        throw new UnsupportedOperationException("Not implemented yet");
+                assignedIncidentId, work);
     }
 
     /**
