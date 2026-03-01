@@ -19,6 +19,8 @@ public class Incident {
     private int incidentId;
     // Number of incidents reported since the first simulation start up
     private static int numberOfIncidents = 0;
+    // The ID of the unit assigned to this incident
+    private int assignedUnitId;
 
     /**
      * Sets up a new incident.
@@ -117,5 +119,21 @@ public class Incident {
      */
     public int getNumberOfIncidents() {
         return numberOfIncidents;
+    }
+
+    /**
+     * Allows the client to obtain the unit's ID that is assigned to this incident.
+     * @return An integer representing the unit's ID.
+     */
+    public int getAssignedUnitId() {
+        return this.assignedUnitId;
+    }
+
+    /**
+     * Allows the client to set which unit is assigned to this incident.
+     * @param unitId The unit to assign to this incident.
+     */
+    public void setAssignedUnitId(int unitId) {
+        this.assignedUnitId = unitId;
     }
 }
