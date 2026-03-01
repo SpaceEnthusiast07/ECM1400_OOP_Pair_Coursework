@@ -101,4 +101,10 @@ public abstract class Unit {
     public void setHomeStationId(int newHomeStationId) {
         this.homeStationId = newHomeStationId;
     }
+
+    /**
+     * Allows the client to obtain the type of unit this unit is.
+     * @return A string representing the unit type.
+     */
+    public abstract String getUnitType();
 }
