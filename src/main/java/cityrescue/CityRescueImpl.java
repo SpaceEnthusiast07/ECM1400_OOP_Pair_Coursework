@@ -264,7 +264,8 @@ public class CityRescueImpl implements CityRescue {
         int[] allStationIds = new int[stationsInSimulation];
 
         // Extract the station ids
-        for (int i = 0; i < stationsInSimulation; i++) {
+        int i = 0;
+        while (stations[i] != null && i < stationsInSimulation) {
             allStationIds[i] = stations[i].getStationId();
         }
 
