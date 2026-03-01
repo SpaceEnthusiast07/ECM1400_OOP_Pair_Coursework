@@ -1,5 +1,8 @@
 package cityrescue;
 
+/**
+ * TODO: Describe this class.
+ */
 public class CityMap {
     // Declare a 2-dimensional array to hold the city grid
     private boolean[][] cityGrid;
