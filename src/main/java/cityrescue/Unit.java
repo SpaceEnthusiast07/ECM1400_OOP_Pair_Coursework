@@ -146,4 +146,10 @@ public abstract class Unit {
     public void setCompletedTicks(int updatedCompletedTicks) {
         this.completedTicks = updatedCompletedTicks;
     }
+
+    /**
+     * Allows the client to obtain the total number of ticks this unit must spend AT_SCENE.
+     * @return An integer representing the number of required ticks this unit must stay AT_SCENE.
+     */
+    public abstract int getTicksAtScene();
 }

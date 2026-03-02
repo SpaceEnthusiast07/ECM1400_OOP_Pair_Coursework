@@ -42,4 +42,13 @@ public class Fire_Engine extends Unit {
     public UnitType getUnitType() {
         return unitType;
     }
+
+    /**
+     * Allows the client to obtain the total number of ticks a Fire_Engine must spend AT_SCENE.
+     * @return An integer representing the number of required ticks a Fire_Engine must stay AT_SCENE.
+     */
+    @Override
+    public int getTicksAtScene() {
+        return TICKS_AT_SCENE;
+    }
 }
