@@ -29,6 +29,6 @@ public interface CityRescue {
     String viewIncident(int incidentId) throws IDNotRecognisedException;
 
     void dispatch();
-    void tick();
+    void tick() throws IDNotRecognisedException;
     String getStatus();
 }
