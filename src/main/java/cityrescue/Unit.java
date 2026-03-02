@@ -21,7 +21,7 @@ public abstract class Unit {
     // The ID of the incident that this unit has been assigned to
     private int assignedIncidentId;
     // Represents the number of ticks currently spent at scene
-    private int completedTicks;
+    private int ticksSpentAtScene;
 
     /**
      * Sets up a new unit by giving it a unique ID, location, assigning it to a
@@ -41,7 +41,7 @@ public abstract class Unit {
         // Set the initial state of the units status
         this.status = status;
         // Initialise the number of completed ticks at scene
-        completedTicks = 0;
+        ticksSpentAtScene = 0;
     }
 
     /**
@@ -135,16 +135,15 @@ public abstract class Unit {
      * Allows the client to obtain the number of ticks this unit has spent at the scene.
      * @return An integer representing the number of ticks currently spent at scene.
      */
-    public int getCompletedTicks() {
-        return completedTicks;
+    public int getTicksSpentAtScene() {
+        return ticksSpentAtScene;
     }
 
     /**
-     * Allows the client to update the number of ticks this unit has currently spent at scene.
-     * @param updatedCompletedTicks The new number of ticks spent at scene.
+     * Allows the client to increment the number of ticks this unit has currently spent at scene.
      */
-    public void setCompletedTicks(int updatedCompletedTicks) {
-        this.completedTicks = updatedCompletedTicks;
+    public void incrementTicksSpentAtScene() {
+        this.ticksSpentAtScene++;
     }
 
     /**
