@@ -23,6 +23,9 @@ public class CityRescueImpl implements CityRescue {
     private int unitsInSimulation = 0;
     private int incidentsInSimulation = 0;
 
+    // Universal time tracker
+    int tick = 0;
+
     // Declare the city map
     private CityMap cityMap;
     // Initialise an array to hold all the stations
@@ -33,30 +36,29 @@ public class CityRescueImpl implements CityRescue {
     private Incident[] incidents;
 
     /**
-     * TODO: Complete initialise function!
      * Starts a new, blank simulation.
      * @param width The width of the board.
      * @param height The height of the board.
-     * @throws InvalidGridException Thrown when the specified width or height are 0 or less.
+     * @throws InvalidGridException Thrown when the specified width or height are less
+     * than or equal to 0.
      */
     @Override
     public void initialise(int width, int height) throws InvalidGridException {
         // Throw exception if width and height are invalid
         if (width <= 0 || height <= 0) {
             throw new InvalidGridException("Invalid width or height.");
-        } else {
-            // Clear all stations, units and incidents
-            stations = new Station[MAX_STATIONS];
-            units = new Unit[MAX_UNITS];
-            incidents = new Incident[MAX_INCIDENTS];
-
-            // Create a new city map with the specified width and height
-            cityMap = new CityMap(width, height);
-
-            // Reset tick to 0
-            // TODO: Reset tick to 0
         }
-        throw new UnsupportedOperationException("Not implemented yet");
+
+        // Create a new city map with the specified width and height
+        cityMap = new CityMap(width, height);
+
+        // Clear all stations, units and incidents
+        stations = new Station[MAX_STATIONS];
+        units = new Unit[MAX_UNITS];
+        incidents = new Incident[MAX_INCIDENTS];
+
+        // Reset tick to 0
+        tick = 0;
     }
 
     /**
