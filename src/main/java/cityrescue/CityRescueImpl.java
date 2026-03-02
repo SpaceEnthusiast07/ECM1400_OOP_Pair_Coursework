@@ -4,7 +4,6 @@ import cityrescue.enums.*;
 import cityrescue.exceptions.*;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 /**
  * CityRescueImpl (Starter)
@@ -726,13 +725,11 @@ public class CityRescueImpl implements CityRescue {
     }
 
     /**
-     * Assigns any IDLE units to any REPORTED incidents using the manhattan distance between
-     * units and incidents, and any tie-breaking rules when required.
+     * Assigns any IDLE units to any REPORTED incidents using the Manhattan distance between
+     * units and incidents, and any tie-breaking rules that are required.
      */
     @Override
     public void dispatch() {
-        // TODO: Logic needs verifying!
-
         // Declare variables that are used within these loops to make the code easier to read
         Incident currentIncident;
         Unit currentUnit = null;
@@ -752,6 +749,8 @@ public class CityRescueImpl implements CityRescue {
 
                 // Reset the best, shortest Manhattan distance tracker
                 bestUnitDistance = 1000000000;
+                // Reset the best unit variable
+                bestUnit = null;
 
                 // Iterate through each unit to find the best one to dispatch for this incident
                 int unitIndex = 0;
