@@ -530,13 +530,21 @@ public class CityRescueImpl implements CityRescue {
         int homeStationId = unit.getHomeStationId();
         int[] unitLocation = unit.getUnitCoordinates();
         String unitStatus = unit.getStatus().toString();
-        int assignedIncidentId = unit.getAssignedIncidentId();
-        String work = "?"; // TODO: Not sure what this property is?! I don't think it is "ticks at scene"!
+        String assignedIncidentId = (unit.getAssignedIncidentId() == -1) ? "-" : Integer.toString(unit.getAssignedIncidentId());
+        int ticksSpentAtScene = unit.getTicksSpentAtScene();
 
 
-        return String.format("U#%d TYPE=%s HOME=%d LOC=(%d,%d) STATUS=%s INCIDENT=%d WORK=%s",
+        // Construct the general string
+        String viewUnitString = String.format("U#%d TYPE=%s HOME=%d LOC=(%d,%d) STATUS=%s INCIDENT=%s",
                 unitId, unitType, homeStationId, unitLocation[0], unitLocation[1], unitStatus,
-                assignedIncidentId, work);
+                assignedIncidentId);
+
+        // If the unit is AT_SCENE, add the WORK attribute
+        if (unit.getStatus() == UnitStatus.AT_SCENE) {
+            viewUnitString = String.format(viewUnitString + " WORK=%d", ticksSpentAtScene);
+        }
+
+        return viewUnitString;
     }
 
     /**
@@ -618,10 +626,14 @@ public class CityRescueImpl implements CityRescue {
             int unitIndex = findUnitIndex(incident.getAssignedUnitId());
             // Set this unit to IDLE
             units[unitIndex].setStatus(UnitStatus.IDLE);
+            // Reset the assignedIncidentId attribute of the unit
+            units[unitIndex].setAssignedIncidentId(-1);
         }
 
         // Update the status of the incident to CANCELLED
         incident.setIncidentStatus(IncidentStatus.CANCELLED);
+        // Reset the assignedUnitId attribute of the incident
+        incident.setAssignedUnitId(-1);
     }
 
     /**
@@ -858,6 +870,9 @@ public class CityRescueImpl implements CityRescue {
 
                     // Mark the incident as RESOLVED and leave it in the simulation
                     incident.setIncidentStatus(IncidentStatus.RESOLVED);
+
+                    // Reset the assignedUnitId attribute of the incident
+                    incident.setAssignedUnitId(-1);
 
                     // Reset the unit's assigned incident attribute
                     unit.setAssignedIncidentId(-1);
