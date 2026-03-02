@@ -730,10 +730,10 @@ public class CityRescueImpl implements CityRescue {
         int incidentSeverity = incident.getIncidentSeverity();
         int[] incidentLocation = incident.getIncidentLocation();
         String incidentStatus = incident.getIncidentStatus().toString();
-        int assignedUnitID = incident.getAssignedUnitId();
+        String assignedUnitID = (incident.getAssignedUnitId() == -1) ? "-" : Integer.toString(incident.getAssignedUnitId());
 
         // Return the formatted string
-        return String.format("I#%d TYPE=%s SEV=%d LOC=(%d,%d) STATUS=%s UNIT=%d",
+        return String.format("I#%d TYPE=%s SEV=%d LOC=(%d,%d) STATUS=%s UNIT=%s",
                 incidentId, incidentType, incidentSeverity, incidentLocation[0], incidentLocation[1],
                 incidentStatus, assignedUnitID);
     }
