@@ -735,7 +735,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Declare variables that are used within these loops to make the code easier to read
         Incident currentIncident;
-        Unit currentUnit;
+        Unit currentUnit = null;
 
         // Declare a variable to hold the most suitable unit for the current incident
         Unit bestUnit = null;
@@ -797,6 +797,9 @@ public class CityRescueImpl implements CityRescue {
 
                 // Change the status of the current incident to DISPATCHED
                 currentIncident.setIncidentStatus(IncidentStatus.DISPATCHED);
+
+                // Change the status of the current unit to EN_ROUTE
+                currentUnit.setStatus(UnitStatus.EN_ROUTE);
             }
 
             incidentIndex++;
