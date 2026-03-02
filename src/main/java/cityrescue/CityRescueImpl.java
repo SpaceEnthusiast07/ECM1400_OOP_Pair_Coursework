@@ -750,18 +750,18 @@ public class CityRescueImpl implements CityRescue {
                 // Store the memory address of the current incident to make the code easier to read
                 currentIncident = incidents[incidentIndex];
 
-                // Reset the best, shortest manhattan distance tracker
+                // Reset the best, shortest Manhattan distance tracker
                 bestUnitDistance = 1000000000;
 
                 // Iterate through each unit to find the best one to dispatch for this incident
                 int unitIndex = 0;
                 while (units[unitIndex] != null && unitIndex < unitsInSimulation) {
-                    // Check if this unit is IDLE
-                    if (units[unitIndex].getStatus() == UnitStatus.IDLE) {
+                    // Check if this unit is IDLE and can handle this incident
+                    if (units[unitIndex].getStatus() == UnitStatus.IDLE && units[unitIndex].canHandle(currentIncident.getIncidentType())) {
                         // Store the memory address of the current unit to make the code easier to read
                         currentUnit = units[unitIndex];
 
-                        // Calculate the manhattan distance between this unit and the incident
+                        // Calculate the Manhattan distance between this unit and the incident
                         int currentDistance = Math.abs(currentIncident.getIncidentLocation()[0] - currentUnit.getUnitCoordinates()[0]) + Math.abs(currentIncident.getIncidentLocation()[1] - currentUnit.getUnitCoordinates()[1]);
 
                         // Check if the current distance and best distance are equal
