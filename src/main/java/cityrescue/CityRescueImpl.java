@@ -896,9 +896,45 @@ public class CityRescueImpl implements CityRescue {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    /**
+     * Constructs a string containing the status of the simulation. It lists the number of stations,
+     * units, incidents, and obstacles. It also lists all the properties for each unit and each incident.
+     * @return A string representing the current status of the simulation.
+     * @throws IDNotRecognisedException Thrown when either the unit or incident in question cannot be found.
+     */
     @Override
-    public String getStatus() {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not implemented yet");
+    public String getStatus() throws IDNotRecognisedException {
+        // Initialise a string for output
+        String simulationStatusString = new String();
+
+        // Add the tick number to the string status
+        simulationStatusString = simulationStatusString.concat("TICK=").concat(String.valueOf(tick)).concat("\n");
+
+        // Construct a string containing the number of stations, units, incidents and obstacles
+        String outputLine2 = String.format("STATIONS=%d UNITS=%d INCIDENTS=%d OBSTACLES=%d",
+                stationsInSimulation, unitsInSimulation, incidentsInSimulation, cityMap.getNumberOfObstacles());
+
+        // Add line 2 to the main string
+        simulationStatusString = simulationStatusString.concat(outputLine2).concat("\n");
+
+        // Add the INCIDENTS title
+        simulationStatusString = simulationStatusString.concat("INCIDENTS\n");
+        // Add each incident to the main string
+        int incidentIndex = 0;
+        while (incidents[incidentIndex] != null && incidentIndex < incidentsInSimulation) {
+            simulationStatusString = simulationStatusString.concat(viewIncident(incidents[incidentIndex].getIncidentId())).concat("\n");
+            incidentIndex++;
+        }
+
+        // Add the UNITS title
+        simulationStatusString = simulationStatusString.concat("UNITS\n");
+        // Add each unit to the main string
+        int unitIndex = 0;
+        while (units[unitIndex] != null && unitIndex < unitsInSimulation) {
+            simulationStatusString = simulationStatusString.concat(viewUnit(units[unitIndex].getUnitId())).concat("\n");
+            unitIndex++;
+        }
+
+        return simulationStatusString;
     }
 }
