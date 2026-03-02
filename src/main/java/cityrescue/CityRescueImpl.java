@@ -808,24 +808,76 @@ public class CityRescueImpl implements CityRescue {
     }
 
     /**
-     * TODO
+     * Advances the simulation on by one tick. All EN_ROUTE units are moved one cell closer to
+     * their assigned incident. If the unit has reached its assigned incident, it is marked as AT_SCENE.
+     * Then, each AT_SCENE unit is checked if it has finished with its incident, if so, it is marked as
+     * IDLE and the incident is marked as RESOLVED. Otherwise, the ticksSpentAtScene attribute of the
+     * AT_SCENE unit is incremented.
+     * @throws IDNotRecognisedException Thrown when the assigned incident cannot be found in the simulation.
      */
     @Override
-    public void tick() {
-        // TODO: implement
-
+    public void tick() throws IDNotRecognisedException {
         // Increment the tick
         tick++;
 
-        // For each EN_ROUTE unit, move it one cell closer to its respective unit
+        // Iterate through each unit in the simulation and deal with it depending on its status
         int unitIndex = 0;
         while (units[unitIndex] != null && unitIndex < unitsInSimulation) {
-            // Check if the current unit is EN_ROUTE
-            if (units[unitIndex].getStatus() == UnitStatus.EN_ROUTE) {
-                // ...
-            }
-        }
+            // Store the memory address of this unit to make the code easier to read
+            Unit unit =  units[unitIndex];
 
+            // For each EN_ROUTE unit, move it one cell closer to its assigned incident
+            if (unit.getStatus() == UnitStatus.EN_ROUTE) {
+                // Call the move function to move this unit one cell closer to its assigned incident
+                moveUnit(unit.getUnitId());
+
+                // Store the memory address of the incident that this unit is assigned to
+                Incident incident = incidents[findIncidentIndex(unit.getAssignedIncidentId())];
+
+                // Check if this unit has arrived at its assigned incident
+                if (Arrays.equals(unit.getUnitCoordinates(), incident.getIncidentLocation())) {
+                    // Set the status of this unit to AT_SCENE
+                    unit.setStatus(UnitStatus.AT_SCENE);
+                }
+            }
+
+            // For each AT_SCENE unit, check if it is finished on scene, or increment its ticksSpentAtScene attribute
+            if (unit.getStatus() == UnitStatus.AT_SCENE) {
+                // Check if the unit has completed its time at the scene
+                // I.e. does ticksSpentAtScene == TICKS_AT_SCENE?
+                if (unit.getTicksSpentAtScene() == unit.getTicksAtScene()) {
+                    // Therefore, the unit has completed the incident
+                    // Mark the unit as IDLE and keep it in its current location
+                    unit.setStatus(UnitStatus.IDLE);
+
+                    // Reset this unit's ticksSpentAtScene attribute
+                    unit.resetTicksSpentAtScene();
+
+                    // Store the memory address of the incident that this unit is assigned to
+                    Incident incident = incidents[findIncidentIndex(unit.getAssignedIncidentId())];
+
+                    // Mark the incident as RESOLVED and leave it in the simulation
+                    incident.setIncidentStatus(IncidentStatus.RESOLVED);
+
+                    // Reset the unit's assigned incident attribute
+                    unit.setAssignedIncidentId(-1);
+                } else {
+                    // Increment the number of ticks spent at scene
+                    unit.incrementTicksSpentAtScene();
+                }
+            }
+
+            // Move to the next unit in the simulation
+            unitIndex++;
+        }
+    }
+
+    /**
+     * Move the specified unit one cell closer to its assigned incident.
+     * @param unitId The unit to move.
+     */
+    public void moveUnit(int unitId) {
+        // TODO: Implement
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
