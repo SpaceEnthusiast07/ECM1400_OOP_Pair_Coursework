@@ -147,6 +147,13 @@ public abstract class Unit {
     }
 
     /**
+     * Allows the client to reset this unit's ticks spent at scene attribute.
+     */
+    public void resetTicksSpentAtScene() {
+        this.ticksSpentAtScene = 0;
+    }
+
+    /**
      * Allows the client to obtain the total number of ticks this unit must spend AT_SCENE.
      * @return An integer representing the number of required ticks this unit must stay AT_SCENE.
      */
