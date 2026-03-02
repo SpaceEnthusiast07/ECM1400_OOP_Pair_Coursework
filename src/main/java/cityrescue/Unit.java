@@ -42,6 +42,8 @@ public abstract class Unit {
         this.status = status;
         // Initialise the number of completed ticks at scene
         ticksSpentAtScene = 0;
+        // Initialise the assignedIncidentId attribute
+        assignedIncidentId = -1;
     }
 
     /**
