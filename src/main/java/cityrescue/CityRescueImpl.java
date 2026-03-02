@@ -840,11 +840,11 @@ public class CityRescueImpl implements CityRescue {
 
             // For each EN_ROUTE unit, move it one cell closer to its assigned incident
             if (unit.getStatus() == UnitStatus.EN_ROUTE) {
-                // Call the move function to move this unit one cell closer to its assigned incident
-                moveUnit(unit.getUnitId());
-
                 // Store the memory address of the incident that this unit is assigned to
                 Incident incident = incidents[findIncidentIndex(unit.getAssignedIncidentId())];
+
+                // Call the move function to move this unit one cell closer to its assigned incident
+                moveUnit(unit, incident);
 
                 // Check if this unit has arrived at its assigned incident
                 if (Arrays.equals(unit.getUnitCoordinates(), incident.getIncidentLocation())) {
@@ -889,11 +889,95 @@ public class CityRescueImpl implements CityRescue {
 
     /**
      * Move the specified unit one cell closer to its assigned incident.
-     * @param unitId The unit to move.
+     * @param unit The object reference of the unit to move.
+     * @param assignedIncident The object reference to the assigned incident.
      */
-    public void moveUnit(int unitId) {
-        // TODO: Implement
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void moveUnit(Unit unit, Incident assignedIncident) {
+        // Extract the unit's current location
+        int[] currentLocation = unit.getUnitCoordinates();
+
+        // Get the grid size
+        int[] gridSize = getGridSize();
+
+        // Initialise a 2D array to hold the candidate moves
+        int[][] candidateMoves = new int[4][2];
+
+        // Array structure:
+        // index | x | y
+        // --------------
+        //   0   | _ | _   <- north
+        //   1   | _ | _   <- east
+        //   2   | _ | _   <- south
+        //   3   | _ | _   <- west
+
+        // Store the candidate moves
+        // Add the location once moved north
+        candidateMoves[0][0] = currentLocation[0];
+        candidateMoves[0][1] = currentLocation[1] + 1;
+
+        // Add the location once moved east
+        candidateMoves[1][0] = currentLocation[0] + 1;
+        candidateMoves[1][1] = currentLocation[1];
+
+        // Add the location once moved south
+        candidateMoves[2][0] = currentLocation[0];
+        candidateMoves[2][1] = currentLocation[1] - 1;
+
+        // Add the location once moved west
+        candidateMoves[3][0] = currentLocation[0] - 1;
+        candidateMoves[3][1] = currentLocation[1];
+
+        // Store the current distance from the unit to the incident
+        int currentDistance = Math.abs(assignedIncident.getIncidentLocation()[0] - unit.getUnitCoordinates()[0])
+                + Math.abs(assignedIncident.getIncidentLocation()[1] - unit.getUnitCoordinates()[1]);
+
+        // Initialise the tracker for the best direction
+        int bestDirection = -1;
+
+        // Variable use to keep track of the first legal direction
+        int firstLegalDirection = Integer.MAX_VALUE;
+
+        // Iterate through and analyse each candidate move
+        int currentMoveIndex = 0;
+        while (bestDirection == -1 && currentMoveIndex < candidateMoves.length) {
+            // Store the current move
+            int[] currentMove = candidateMoves[currentMoveIndex];
+
+            // Only consider this move if it stays within the bound of the map and the location is not blocked
+            if (currentMove[0] >= 0 && currentMove[1] >= 0 && currentMove[0] < gridSize[0]
+                    && currentMove[1] < gridSize[1] && !cityMap.isObstaclePresent(currentMove[0], currentMove[1])) {
+                // Update the first legal direction
+                if (currentMoveIndex < firstLegalDirection) {
+                    firstLegalDirection = currentMoveIndex;
+                }
+
+                // Calculate the distance this location is from the assigned incident
+                int distance = Math.abs(assignedIncident.getIncidentLocation()[0] - currentMove[0])
+                        + Math.abs(assignedIncident.getIncidentLocation()[1] - currentMove[1]);
+
+                // If this new distance is shorter than the unit's current, choose this direction
+                if (distance < currentDistance) {
+                    // Update the best direction
+                    bestDirection = currentMoveIndex;
+                }
+            }
+
+            // Move to the next possible direction/move
+            currentMoveIndex++;
+        }
+
+        // If bestDirection is still -1, that means there is no legal move that reduces the distance
+        // Therefore, just take the first legal move in the order N, E, S, W
+        // Note: If firstLegalDirection is still Integer.MAX_VALUE, that means there are no legal moves available,
+        // so stay the unit must stay put
+        if (bestDirection == -1 && firstLegalDirection != Integer.MAX_VALUE) {
+            bestDirection = firstLegalDirection;
+        }
+
+        // Now, make the move if bestDirection is not -1
+        if (bestDirection != -1) {
+            unit.setUnitCoordinates(candidateMoves[bestDirection]);
+        }
     }
 
     /**
