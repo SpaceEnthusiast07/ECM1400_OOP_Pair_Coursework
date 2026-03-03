@@ -875,6 +875,8 @@ public class CityRescueImpl implements CityRescue {
                     if (Arrays.equals(unit.getUnitCoordinates(), incident.getIncidentLocation())) {
                         // Set the status of this unit to AT_SCENE
                         unit.setStatus(UnitStatus.AT_SCENE);
+                        // Set the status of this unit's assigned incident to IN_PROGRESS
+                        incident.setIncidentStatus(IncidentStatus.IN_PROGRESS);
                     }
                 }
 
