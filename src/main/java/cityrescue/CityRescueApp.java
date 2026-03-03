@@ -4,7 +4,6 @@ import cityrescue.enums.IncidentType;
 import cityrescue.enums.UnitType;
 import cityrescue.exceptions.*;
 
-import javax.swing.plaf.basic.BasicPasswordFieldUI;
 import java.util.Scanner;
 
 /**
@@ -63,34 +62,38 @@ public class CityRescueApp {
         //region Add 4 Random Obstacles
         // Add obstacle 1
         try {
-            sim.addObstacle(2,6);
-            System.out.println("Added: Obstacle at location (2,6).");
+            sim.addObstacle(1,5);
+            System.out.println("Added: Obstacle at location (1,5).");
         } catch (InvalidLocationException e) {
             System.out.println("ERROR: Invalid location to place obstacle.");
+            System.exit(1);
         }
 
         // Add obstacle 2
         try {
-            sim.addObstacle(5,6);
-            System.out.println("Added: Obstacle at location (5,6).");
+            sim.addObstacle(4,5);
+            System.out.println("Added: Obstacle at location (4,5).");
         } catch (InvalidLocationException e) {
             System.out.println("ERROR: Invalid location to place obstacle.");
+            System.exit(1);
         }
 
         // Add obstacle 3
         try {
-            sim.addObstacle(1,1);
-            System.out.println("Added: Obstacle at location (1,1).");
+            sim.addObstacle(0,0);
+            System.out.println("Added: Obstacle at location (0,0).");
         } catch (InvalidLocationException e) {
             System.out.println("ERROR: Invalid location to place obstacle.");
+            System.exit(1);
         }
 
         // Add obstacle 4
         try {
-            sim.addObstacle(4,4);
-            System.out.println("Added: Obstacle at location (4,4).");
+            sim.addObstacle(3,3);
+            System.out.println("Added: Obstacle at location (3,3).");
         } catch (InvalidLocationException e) {
             System.out.println("ERROR: Invalid location to place obstacle.");
+            System.exit(1);
         }
         //endregion
 
@@ -112,11 +115,11 @@ public class CityRescueApp {
                 String stationName = "Station_1";    // TODO: Implement console input from the user.
 
                 // Ask the user for the coordinates of the station
-                int x = 3;    // TODO: Implement console input from user.
-                int y = 4;    // TODO: Implement console input from user.
+                int x = 2;    // TODO: Implement console input from user.
+                int y = 3;    // TODO: Implement console input from user.
 
-                // Add a station to the sim at coordinates (3,4)
-                station1Id = sim.addStation(stationName, 3, 4);
+                // Add a station to the sim at coordinates (2,3)
+                station1Id = sim.addStation(stationName, x, y);
 
                 // Indicate that the user has input a valid station name and location
                 validStation = true;
@@ -125,8 +128,10 @@ public class CityRescueApp {
                 System.out.println("Added: Station called '"+stationName+"' at location ("+x+","+y+") with ID "+station1Id+".");
             } catch (InvalidNameException e) {
                 System.out.println("ERROR: Station name is invalid.");
+                System.exit(1);
             } catch (InvalidLocationException e) {
                 System.out.println("ERROR: Location is either missing or out of bounds.");
+                System.exit(1);
             }
         }
 
@@ -155,10 +160,13 @@ public class CityRescueApp {
             System.out.println("Added: Fire engine unit with a home station ID of "+station1Id+".");
         } catch (IDNotRecognisedException e) {
             System.out.println("ERROR: Provided station ID doesn't exist.");
+            System.exit(1);
         } catch (InvalidUnitException e) {
             System.out.println("ERROR: Unit type is not recognised.");
+            System.exit(1);
         } catch (IllegalStateException e) {
             System.out.println("ERROR: Station is at capacity.");
+            System.exit(1);
         }
         //endregion
 
@@ -168,9 +176,9 @@ public class CityRescueApp {
         // Add a medical incident
         try {
             // Add an incident of type medical
-            int medicalId = sim.reportIncident(IncidentType.MEDICAL, 3, 5, 8);
+            int medicalId = sim.reportIncident(IncidentType.MEDICAL, 3, 4, 7);
             // Output this incident
-            System.out.println("Added: Medical incident with severity 3, location (5,8) and ID "+medicalId+".");
+            System.out.println("Added: Medical incident with severity 3, location (4,7) and ID "+medicalId+".");
         } catch (InvalidSeverityException e) {
             System.out.println("ERROR: Medical severity must be between 1 and 5.");
         } catch (InvalidLocationException e) {
@@ -180,25 +188,29 @@ public class CityRescueApp {
         // Add a fire incident
         try {
             // Add an incident of type fire
-            int fireId = sim.reportIncident(IncidentType.FIRE, 5, 1, 3);
+            int fireId = sim.reportIncident(IncidentType.FIRE, 5, 0, 2);
             // Output this incident
-            System.out.println("Added: Fire incident with severity 5, location (1,3) and ID "+fireId+".");
+            System.out.println("Added: Fire incident with severity 5, location (0,2) and ID "+fireId+".");
         } catch (InvalidSeverityException e) {
             System.out.println("ERROR: Fire severity must be between 1 and 5.");
+            System.exit(1);
         } catch (InvalidLocationException e) {
             System.out.println("ERROR: Fire location is out of bounds or an obstacle is present at this location.");
+            System.exit(1);
         }
 
         // Add a crime incident
         try {
             // Add an incident of type crime
-            int crimeId = sim.reportIncident(IncidentType.CRIME, 2, 6, 2);
+            int crimeId = sim.reportIncident(IncidentType.CRIME, 2, 5, 1);
             // Output this incident
-            System.out.println("Added: Crime incident with severity 2, location (6,2) and ID "+crimeId+".");
+            System.out.println("Added: Crime incident with severity 2, location (5,1) and ID "+crimeId+".");
         } catch (InvalidSeverityException e) {
             System.out.println("ERROR: Crime severity must be between 1 and 5.");
+            System.exit(1);
         } catch (InvalidLocationException e) {
             System.out.println("ERROR: Crime location is out of bounds or an obstacle is present at this location.");
+            System.exit(1);
         }
         //endregion
 
