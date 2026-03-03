@@ -285,7 +285,7 @@ public class CityRescueImpl implements CityRescue {
      * @param type The type of unit to add.
      * @return The unit's ID starting from 1.
      * @throws IDNotRecognisedException Thrown when a station with this ID doesn't exist.
-     * @throws InvalidUnitException Thrown when the specified unit is null or not recognised.
+     * @throws InvalidUnitException Thrown when the specified unit type is null or not recognised.
      * @throws IllegalStateException Thrown when the specified station is at capacity (full).
      */
     @Override
