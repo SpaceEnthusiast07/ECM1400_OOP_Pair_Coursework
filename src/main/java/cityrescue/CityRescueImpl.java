@@ -769,40 +769,46 @@ public class CityRescueImpl implements CityRescue {
                 // Iterate through each unit to find the best one to dispatch for this incident
                 int unitIndex = 0;
                 while (units[unitIndex] != null && unitIndex < unitsInSimulation) {
-                    // Check if this unit is IDLE and can handle this incident
-                    if (units[unitIndex].getStatus() == UnitStatus.IDLE && units[unitIndex].canHandle(currentIncident.getIncidentType())) {
-                        // Store the memory address of the current unit to make the code easier to read
-                        currentUnit = units[unitIndex];
+                    // Skip this unit if it is NOT IDLE and CANNOT handle this incident
+                    if (!(units[unitIndex].getStatus() == UnitStatus.IDLE && units[unitIndex].canHandle(currentIncident.getIncidentType()))) {
+                        // Point to the next unit in the array
+                        unitIndex++;
+                        // Move to the next unit in the array
+                        continue;
+                    }
 
-                        // Calculate the Manhattan distance between this unit and the incident
-                        int currentDistance = Math.abs(currentIncident.getIncidentLocation()[0] - currentUnit.getUnitCoordinates()[0])
-                                + Math.abs(currentIncident.getIncidentLocation()[1] - currentUnit.getUnitCoordinates()[1]);
+                    // Store the memory address of the current unit to make the code easier to read
+                    currentUnit = units[unitIndex];
 
-                        // Check if the current distance and best distance are equal
-                        if (currentDistance == bestUnitDistance) {
-                            // Check if the two units have the same ID
-                            if (bestUnit.getUnitId() == currentUnit.getUnitId()) {
-                                // Check which of the two units has the lowest home station ID
-                                if (currentUnit.getHomeStationId() < bestUnit.getHomeStationId()) {
-                                    // Now, assign the new best unit
-                                    bestUnit = currentUnit;
-                                    bestUnitDistance = currentDistance;
-                                }
-                            }
-                            else if (currentUnit.getUnitId() < bestUnit.getUnitId()) {
+                    // Calculate the Manhattan distance between this unit and the incident
+                    int currentDistance = Math.abs(currentIncident.getIncidentLocation()[0] - currentUnit.getUnitCoordinates()[0])
+                            + Math.abs(currentIncident.getIncidentLocation()[1] - currentUnit.getUnitCoordinates()[1]);
+
+                    // Check if the current distance and best distance are equal
+                    if (currentDistance == bestUnitDistance) {
+                        // Check if the two units have the same ID
+                        if (bestUnit.getUnitId() == currentUnit.getUnitId()) {
+                            // Check which of the two units has the lowest home station ID
+                            if (currentUnit.getHomeStationId() < bestUnit.getHomeStationId()) {
                                 // Now, assign the new best unit
                                 bestUnit = currentUnit;
                                 bestUnitDistance = currentDistance;
                             }
                         }
-                        // Check if this newly calculated distance is shorter
-                        else if (currentDistance < bestUnitDistance) {
-                            // Update the best unit and the best distance variables
+                        else if (currentUnit.getUnitId() < bestUnit.getUnitId()) {
+                            // Now, assign the new best unit
                             bestUnit = currentUnit;
                             bestUnitDistance = currentDistance;
                         }
                     }
+                    // Check if this newly calculated distance is shorter
+                    else if (currentDistance < bestUnitDistance) {
+                        // Update the best unit and the best distance variables
+                        bestUnit = currentUnit;
+                        bestUnitDistance = currentDistance;
+                    }
 
+                    // Point to the next unit in the array
                     unitIndex++;
                 }
 
