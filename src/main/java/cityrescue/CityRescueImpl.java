@@ -984,10 +984,9 @@ public class CityRescueImpl implements CityRescue {
      * Constructs a string containing the status of the simulation. It lists the number of stations,
      * units, incidents, and obstacles. It also lists all the properties for each unit and each incident.
      * @return A string representing the current status of the simulation.
-     * @throws IDNotRecognisedException Thrown when either the unit or incident in question cannot be found.
      */
     @Override
-    public String getStatus() throws IDNotRecognisedException {
+    public String getStatus() {
         // Initialise a string for output
         String simulationStatusString = new String();
 
@@ -1005,18 +1004,28 @@ public class CityRescueImpl implements CityRescue {
         simulationStatusString = simulationStatusString.concat("INCIDENTS\n");
         // Add each incident to the main string
         int incidentIndex = 0;
-        while (incidents[incidentIndex] != null && incidentIndex < incidentsInSimulation) {
-            simulationStatusString = simulationStatusString.concat(viewIncident(incidents[incidentIndex].getIncidentId())).concat("\n");
-            incidentIndex++;
+        // Try block to catch the IDNotRecognisedException
+        try {
+            while (incidents[incidentIndex] != null && incidentIndex < incidentsInSimulation) {
+                simulationStatusString = simulationStatusString.concat(viewIncident(incidents[incidentIndex].getIncidentId())).concat("\n");
+                incidentIndex++;
+            }
+        } catch (IDNotRecognisedException e) {
+            return "Could not find the required incident";
         }
 
         // Add the UNITS title
         simulationStatusString = simulationStatusString.concat("UNITS\n");
         // Add each unit to the main string
         int unitIndex = 0;
-        while (units[unitIndex] != null && unitIndex < unitsInSimulation) {
-            simulationStatusString = simulationStatusString.concat(viewUnit(units[unitIndex].getUnitId())).concat("\n");
-            unitIndex++;
+        // Try block to catch the IDNotRecognisedException
+        try {
+            while (units[unitIndex] != null && unitIndex < unitsInSimulation) {
+                simulationStatusString = simulationStatusString.concat(viewUnit(units[unitIndex].getUnitId())).concat("\n");
+                unitIndex++;
+            }
+        } catch (IDNotRecognisedException e) {
+            return "Could not find the required unit";
         }
 
         return simulationStatusString;

@@ -30,5 +30,5 @@ public interface CityRescue {
 
     void dispatch();
     void tick() throws IDNotRecognisedException;
-    String getStatus() throws IDNotRecognisedException;
+    String getStatus();
 }
