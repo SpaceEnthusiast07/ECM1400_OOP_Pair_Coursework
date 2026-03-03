@@ -22,6 +22,7 @@ public class CityMap {
     public CityMap(int width, int height) {
         this.width = width;
         this.height = height;
+        cityGrid = new boolean[height][width];
     }
 
     /**
@@ -65,7 +66,7 @@ public class CityMap {
      * @return True meaning and obstacle is present, otherwise false.
      */
     public boolean isObstaclePresent(int x, int y) {
-        return cityGrid[y][x];
+        return this.cityGrid[y][x];
     }
 
     /**
