@@ -548,7 +548,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Construct the general string
         String viewUnitString = String.format("U#%d TYPE=%s HOME=%d LOC=(%d,%d) STATUS=%s INCIDENT=%s",
-                unitId, unitType, homeStationId, unitLocation[0], unitLocation[1], unitStatus,
+                unitId, unitType, homeStationId, unitLocation[0]+1, unitLocation[1]+1, unitStatus,
                 assignedIncidentId);
 
         // If the unit is AT_SCENE, add the WORK attribute
@@ -750,7 +750,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Return the formatted string
         return String.format("I#%d TYPE=%s SEV=%d LOC=(%d,%d) STATUS=%s UNIT=%s",
-                incidentId, incidentType, incidentSeverity, incidentLocation[0], incidentLocation[1],
+                incidentId, incidentType, incidentSeverity, incidentLocation[0]+1, incidentLocation[1]+1,
                 incidentStatus, assignedUnitID);
     }
 
