@@ -553,7 +553,7 @@ public class CityRescueImpl implements CityRescue {
      * @param severity The severity of this incident.
      * @param x x-coordinate of this incident.
      * @param y y-coordinate of this incident.
-     * @return An integer representing the newly created incident.
+     * @return The ID of the newly reported incident.
      * @throws InvalidSeverityException Thrown when the specified severity is less
      * than 1 or greater than 5.
      * @throws InvalidLocationException Thrown when either the location provided is outside the
