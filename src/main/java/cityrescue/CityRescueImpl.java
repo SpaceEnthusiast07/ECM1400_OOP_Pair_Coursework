@@ -531,7 +531,7 @@ public class CityRescueImpl implements CityRescue {
         int[] unitLocation = unit.getUnitCoordinates();
         String unitStatus = unit.getStatus().toString();
         String assignedIncidentId = (unit.getAssignedIncidentId() == -1) ? "-" : Integer.toString(unit.getAssignedIncidentId());
-        int ticksSpentAtScene = unit.getTicksSpentAtScene();
+        int requiredTicksAtScene = unit.getTicksAtScene();
 
 
         // Construct the general string
@@ -541,7 +541,7 @@ public class CityRescueImpl implements CityRescue {
 
         // If the unit is AT_SCENE, add the WORK attribute
         if (unit.getStatus() == UnitStatus.AT_SCENE) {
-            viewUnitString = String.format(viewUnitString + " WORK=%d", ticksSpentAtScene);
+            viewUnitString = String.format(viewUnitString + " WORK=%d", requiredTicksAtScene);
         }
 
         return viewUnitString;
