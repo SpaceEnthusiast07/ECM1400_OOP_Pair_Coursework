@@ -24,7 +24,7 @@ public class CityRescueImpl implements CityRescue {
     private int incidentsInSimulation = 0;
 
     // Universal time tracker
-    int tick = 0;
+    private int tick = 0;
 
     // Declare the city map
     private CityMap cityMap;
