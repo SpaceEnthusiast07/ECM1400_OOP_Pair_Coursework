@@ -36,6 +36,7 @@ public class Incident {
         this.incidentStatus = incidentStatus;
         this.incidentLocation = new int[]{x,y};
         this.incidentId = ++numberOfIncidents;
+        this.assignedUnitId = -1;
     }
 
     /**
