@@ -825,7 +825,6 @@ public class CityRescueImpl implements CityRescue {
      * Then, each AT_SCENE unit is checked if it has finished with its incident, if so, it is marked as
      * IDLE and the incident is marked as RESOLVED. Otherwise, the ticksSpentAtScene attribute of the
      * AT_SCENE unit is incremented.
-     * @throws IDNotRecognisedException Thrown when the assigned incident cannot be found in the simulation.
      */
     @Override
     public void tick() {
