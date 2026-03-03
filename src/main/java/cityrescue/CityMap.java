@@ -35,8 +35,8 @@ public class CityMap {
 
     /**
      * Adds an obstacle to the city by marking the provided coordinate as 'true'.
-     * @param x The x-coordinate of the obstacle.
-     * @param y The y-coordinate of the obstacle.
+     * @param x The x-coordinate of the obstacle (0-based).
+     * @param y The y-coordinate of the obstacle (0-based).
      */
     public void addObstacle(int x, int y) {
         // Set respective coordinates of the city grid to indicate an obstacle is present
@@ -49,8 +49,8 @@ public class CityMap {
 
     /**
      * Removes an obstacle from the city by marking the provided coordinate as 'false'.
-     * @param x The x-coordinate of the obstacle.
-     * @param y The y-coordinate of the obstacle.
+     * @param x The x-coordinate of the obstacle (0-based).
+     * @param y The y-coordinate of the obstacle (0-based).
      */
     public void removeObstacle(int x, int y) {
         cityGrid[y][x] = false;
@@ -61,8 +61,8 @@ public class CityMap {
 
     /**
      * Allows the client to know if an obstacle is present at the specified location.
-     * @param x The x-coordinate of the potential obstacle.
-     * @param y The x-coordinate of the potential obstacle.
+     * @param x The x-coordinate of the potential obstacle (0-based).
+     * @param y The x-coordinate of the potential obstacle (0-based).
      * @return True meaning and obstacle is present, otherwise false.
      */
     public boolean isObstaclePresent(int x, int y) {
