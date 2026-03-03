@@ -749,7 +749,7 @@ public class CityRescueImpl implements CityRescue {
         Unit currentUnit = null;
 
         // Declare a variable to hold the most suitable unit for the current incident
-        Unit bestUnit = null;
+        Unit bestUnit;
         // Declare a variable to hold the shortest distance between a unit and the current incident
         int bestUnitDistance;
 
@@ -762,7 +762,7 @@ public class CityRescueImpl implements CityRescue {
                 currentIncident = incidents[incidentIndex];
 
                 // Reset the best, shortest Manhattan distance tracker
-                bestUnitDistance = 1000000000;
+                bestUnitDistance = Integer.MAX_VALUE;
                 // Reset the best unit variable
                 bestUnit = null;
 
@@ -775,7 +775,8 @@ public class CityRescueImpl implements CityRescue {
                         currentUnit = units[unitIndex];
 
                         // Calculate the Manhattan distance between this unit and the incident
-                        int currentDistance = Math.abs(currentIncident.getIncidentLocation()[0] - currentUnit.getUnitCoordinates()[0]) + Math.abs(currentIncident.getIncidentLocation()[1] - currentUnit.getUnitCoordinates()[1]);
+                        int currentDistance = Math.abs(currentIncident.getIncidentLocation()[0] - currentUnit.getUnitCoordinates()[0])
+                                + Math.abs(currentIncident.getIncidentLocation()[1] - currentUnit.getUnitCoordinates()[1]);
 
                         // Check if the current distance and best distance are equal
                         if (currentDistance == bestUnitDistance) {
@@ -801,6 +802,8 @@ public class CityRescueImpl implements CityRescue {
                             bestUnitDistance = currentDistance;
                         }
                     }
+
+                    unitIndex++;
                 }
 
                 // Now that we have found the best unit for this incident,
