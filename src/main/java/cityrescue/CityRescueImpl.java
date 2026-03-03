@@ -828,62 +828,66 @@ public class CityRescueImpl implements CityRescue {
      * @throws IDNotRecognisedException Thrown when the assigned incident cannot be found in the simulation.
      */
     @Override
-    public void tick() throws IDNotRecognisedException {
+    public void tick() {
         // Increment the tick
         tick++;
 
         // Iterate through each unit in the simulation and deal with it depending on its status
         int unitIndex = 0;
-        while (units[unitIndex] != null && unitIndex < unitsInSimulation) {
-            // Store the memory address of this unit to make the code easier to read
-            Unit unit =  units[unitIndex];
+        try {
+            while (units[unitIndex] != null && unitIndex < unitsInSimulation) {
+                // Store the memory address of this unit to make the code easier to read
+                Unit unit =  units[unitIndex];
 
-            // For each EN_ROUTE unit, move it one cell closer to its assigned incident
-            if (unit.getStatus() == UnitStatus.EN_ROUTE) {
-                // Store the memory address of the incident that this unit is assigned to
-                Incident incident = incidents[findIncidentIndex(unit.getAssignedIncidentId())];
-
-                // Call the move function to move this unit one cell closer to its assigned incident
-                moveUnit(unit, incident);
-
-                // Check if this unit has arrived at its assigned incident
-                if (Arrays.equals(unit.getUnitCoordinates(), incident.getIncidentLocation())) {
-                    // Set the status of this unit to AT_SCENE
-                    unit.setStatus(UnitStatus.AT_SCENE);
-                }
-            }
-
-            // For each AT_SCENE unit, check if it is finished on scene, or increment its ticksSpentAtScene attribute
-            if (unit.getStatus() == UnitStatus.AT_SCENE) {
-                // Check if the unit has completed its time at the scene
-                // I.e. does ticksSpentAtScene == TICKS_AT_SCENE?
-                if (unit.getTicksSpentAtScene() == unit.getTicksAtScene()) {
-                    // Therefore, the unit has completed the incident
-                    // Mark the unit as IDLE and keep it in its current location
-                    unit.setStatus(UnitStatus.IDLE);
-
-                    // Reset this unit's ticksSpentAtScene attribute
-                    unit.resetTicksSpentAtScene();
-
+                // For each EN_ROUTE unit, move it one cell closer to its assigned incident
+                if (unit.getStatus() == UnitStatus.EN_ROUTE) {
                     // Store the memory address of the incident that this unit is assigned to
                     Incident incident = incidents[findIncidentIndex(unit.getAssignedIncidentId())];
 
-                    // Mark the incident as RESOLVED and leave it in the simulation
-                    incident.setIncidentStatus(IncidentStatus.RESOLVED);
+                    // Call the move function to move this unit one cell closer to its assigned incident
+                    moveUnit(unit, incident);
 
-                    // Reset the assignedUnitId attribute of the incident
-                    incident.setAssignedUnitId(-1);
-
-                    // Reset the unit's assigned incident attribute
-                    unit.setAssignedIncidentId(-1);
-                } else {
-                    // Increment the number of ticks spent at scene
-                    unit.incrementTicksSpentAtScene();
+                    // Check if this unit has arrived at its assigned incident
+                    if (Arrays.equals(unit.getUnitCoordinates(), incident.getIncidentLocation())) {
+                        // Set the status of this unit to AT_SCENE
+                        unit.setStatus(UnitStatus.AT_SCENE);
+                    }
                 }
-            }
 
-            // Move to the next unit in the simulation
-            unitIndex++;
+                // For each AT_SCENE unit, check if it is finished on scene, or increment its ticksSpentAtScene attribute
+                if (unit.getStatus() == UnitStatus.AT_SCENE) {
+                    // Check if the unit has completed its time at the scene
+                    // I.e. does ticksSpentAtScene == TICKS_AT_SCENE?
+                    if (unit.getTicksSpentAtScene() == unit.getTicksAtScene()) {
+                        // Therefore, the unit has completed the incident
+                        // Mark the unit as IDLE and keep it in its current location
+                        unit.setStatus(UnitStatus.IDLE);
+
+                        // Reset this unit's ticksSpentAtScene attribute
+                        unit.resetTicksSpentAtScene();
+
+                        // Store the memory address of the incident that this unit is assigned to
+                        Incident incident = incidents[findIncidentIndex(unit.getAssignedIncidentId())];
+
+                        // Mark the incident as RESOLVED and leave it in the simulation
+                        incident.setIncidentStatus(IncidentStatus.RESOLVED);
+
+                        // Reset the assignedUnitId attribute of the incident
+                        incident.setAssignedUnitId(-1);
+
+                        // Reset the unit's assigned incident attribute
+                        unit.setAssignedIncidentId(-1);
+                    } else {
+                        // Increment the number of ticks spent at scene
+                        unit.incrementTicksSpentAtScene();
+                    }
+                }
+
+                // Move to the next unit in the simulation
+                unitIndex++;
+            }
+        } catch (IDNotRecognisedException e) {
+            System.out.println("Could not find required unit or incident");
         }
     }
 
