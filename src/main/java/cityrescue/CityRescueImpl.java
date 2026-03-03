@@ -73,8 +73,8 @@ public class CityRescueImpl implements CityRescue {
 
     /**
      * Adds an obstacle to the map at the specified location. Coordinates are 1-based.
-     * @param x x-coordinate of the location (1-based).
-     * @param y y-coordinate of the location (1-based).
+     * @param x x-coordinate of the location (0-based).
+     * @param y y-coordinate of the location (0-based).
      * @throws InvalidLocationException Thrown when the provided location is outside the
      * bounds of the map.
      */
@@ -82,10 +82,6 @@ public class CityRescueImpl implements CityRescue {
     public void addObstacle(int x, int y) throws InvalidLocationException {
         // Retrieve the grid size
         int[] gridSize = getGridSize();
-
-        // Convert the coordinates to 0-base
-        x--;
-        y--;
 
         // Check if the provided coordinates are outside the bounds
         if (x < 0 || y < 0 || x >= gridSize[0] || y >= gridSize[1]) {
@@ -99,8 +95,8 @@ public class CityRescueImpl implements CityRescue {
 
     /**
      * Removes the obstacle at the specified location.
-     * @param x x-coordinate of the obstacle (1-based).
-     * @param y y-coordinate of the obstacle (1-based).
+     * @param x x-coordinate of the obstacle (0-based).
+     * @param y y-coordinate of the obstacle (0-based).
      * @throws InvalidLocationException Thrown when the provided location is outside the
      * bounds of the map.
      */
@@ -108,10 +104,6 @@ public class CityRescueImpl implements CityRescue {
     public void removeObstacle(int x, int y) throws InvalidLocationException {
         // Retrieve the grid size
         int[] gridSize = getGridSize();
-
-        // Convert the coordinates to 0-base
-        x--;
-        y--;
 
         // Check if the provided coordinates are outside the bounds
         if (x < 0 || y < 0 || x >= gridSize[0] || y >= gridSize[1]) {
@@ -126,8 +118,8 @@ public class CityRescueImpl implements CityRescue {
     /**
      * Add a station to the simulation. Must specify a location to place the station at.
      * @param name The station name.
-     * @param x x-coordinate of the new station's location (1-based).
-     * @param y y-coordinate of the new station's location (1-based).
+     * @param x x-coordinate of the new station's location (0-based).
+     * @param y y-coordinate of the new station's location (0-based).
      * @return The new station's ID as an integer.
      * @throws InvalidNameException Thrown when the provided name is blank/empty.
      * @throws InvalidLocationException Thrown either when the provided location is outside the
@@ -142,10 +134,6 @@ public class CityRescueImpl implements CityRescue {
 
         // Retrieve the grid size
         int[] gridSize = getGridSize();
-
-        // Convert the coordinates to 0-base
-        x--;
-        y--;
 
         // Check if the provided coordinates are outside the bounds of the map
         if (x < 0 || y < 0 || x >= gridSize[0] || y >= gridSize[1]) {
@@ -526,7 +514,7 @@ public class CityRescueImpl implements CityRescue {
     }
 
     /**
-     * Displays a human-readable output of the specified unit.
+     * Displays a human-readable output of the specified unit. The location is 0-based.
      * @param unitId The ID of the unit to output.
      * @return The string format of the unit's properties.
      * @throws IDNotRecognisedException Thrown when the unit with the specified ID doesn't exist.
@@ -548,7 +536,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Construct the general string
         String viewUnitString = String.format("U#%d TYPE=%s HOME=%d LOC=(%d,%d) STATUS=%s INCIDENT=%s",
-                unitId, unitType, homeStationId, unitLocation[0]+1, unitLocation[1]+1, unitStatus,
+                unitId, unitType, homeStationId, unitLocation[0], unitLocation[1], unitStatus,
                 assignedIncidentId);
 
         // If the unit is AT_SCENE, add the WORK attribute
@@ -563,8 +551,8 @@ public class CityRescueImpl implements CityRescue {
      * Creates and adds another incident to the simulation.
      * @param type The type of incident to report.
      * @param severity The severity of this incident.
-     * @param x x-coordinate of this incident (1-based).
-     * @param y y-coordinate of this incident (1-based).
+     * @param x x-coordinate of this incident (0-based).
+     * @param y y-coordinate of this incident (0-based).
      * @return The ID of the newly reported incident.
      * @throws InvalidSeverityException Thrown when the specified severity is less
      * than 1 or greater than 5.
@@ -585,10 +573,6 @@ public class CityRescueImpl implements CityRescue {
 
         // Retrieve the grid size
         int[] gridSize = getGridSize();
-
-        // Convert the coordinates to 0-base
-        x--;
-        y--;
 
         // Check if the provided coordinates are outside the bounds of the map
         if (x < 0 || y < 0 || x >= gridSize[0] || y >= gridSize[1]) {
@@ -730,7 +714,7 @@ public class CityRescueImpl implements CityRescue {
     }
 
     /**
-     * Formats a string with the properties of an incident in a human-readable way.
+     * Formats a string with the properties of an incident in a human-readable way. The location is 0-based.
      * @param incidentId The incident's ID to output.
      * @return A string containing the properties of a specified incident formatted correctly.
      * @throws IDNotRecognisedException Thrown when the incident with the specified ID doesn't exist.
@@ -750,7 +734,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Return the formatted string
         return String.format("I#%d TYPE=%s SEV=%d LOC=(%d,%d) STATUS=%s UNIT=%s",
-                incidentId, incidentType, incidentSeverity, incidentLocation[0]+1, incidentLocation[1]+1,
+                incidentId, incidentType, incidentSeverity, incidentLocation[0], incidentLocation[1],
                 incidentStatus, assignedUnitID);
     }
 
