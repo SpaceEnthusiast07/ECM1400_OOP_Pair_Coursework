@@ -11,7 +11,6 @@ import java.util.Arrays;
  * You may add additional classes in any package(s) you like.
  */
 public class CityRescueImpl implements CityRescue {
-    // TODO: add fields (counters, etc.)
     // Array size constants:
     private final int MAX_UNITS = 50;         // Maximum number of units any station can own
     private final int MAX_STATIONS = 20;      // Max number of stations in the program
