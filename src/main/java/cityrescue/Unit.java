@@ -6,7 +6,7 @@ import cityrescue.enums.UnitType;
 
 /**
  * Main template class for all subclass units.
- * Such information includes: ID, coordinates, the ID of its home station,
+ * It includes the following information: ID, coordinates, the ID of its home station,
  * its status, number of ticks currently spent at scene, and its assigned incident ID.
  * It contains many getter and setter methods along with a method to check if this specific
  * unit can handle a particular incident.
