@@ -16,6 +16,7 @@ public class CityRescueImpl implements CityRescue {
     private final int MAX_UNITS = 50;         // Maximum number of units any station can own
     private final int MAX_STATIONS = 20;      // Max number of stations in the program
     private final int MAX_INCIDENTS = 200;    // Max number of incidents in the program
+    private final int MAX_UNITS_IN_SIM = MAX_UNITS * MAX_STATIONS;
 
     // Variables used to keep track of the number of stations/units/incidents in the simulation
     // These variables will be incremented/decremented every time a station/unit/incident is created/deleted
@@ -54,7 +55,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Clear all stations, units and incidents
         stations = new Station[MAX_STATIONS];
-        units = new Unit[MAX_UNITS*MAX_STATIONS];
+        units = new Unit[MAX_UNITS_IN_SIM];
         incidents = new Incident[MAX_INCIDENTS];
 
         // Reset tick to 0
@@ -244,9 +245,9 @@ public class CityRescueImpl implements CityRescue {
      */
     @Override
     public void setStationCapacity(int stationId, int maxUnits) throws IDNotRecognisedException, InvalidCapacityException {
-        // Check if the capacity is less then 0
-        if (maxUnits < 0) {
-            throw new InvalidCapacityException("Station capacity cannot be under 0");
+        // Check if the capacity is less than 0 or greater than MAX_UNITS
+        if (maxUnits < 0 || maxUnits > MAX_UNITS) {
+            throw new InvalidCapacityException("Station capacity cannot be under 0 or greater than " + MAX_UNITS);
         }
 
         // Retrieve the index this station is at
@@ -295,7 +296,7 @@ public class CityRescueImpl implements CityRescue {
         int stationIndex = findStationIndex(stationId);    // Exception is thrown from within findStationIndex()
 
         // Check if the station is full
-        if (stations[stationIndex].getNumberOfUnits() == MAX_UNITS) {
+        if (stations[stationIndex].getNumberOfUnits() == stations[stationIndex].getMaxUnits()) {
             throw new IllegalStateException("Station is full");
         }
 
@@ -305,7 +306,7 @@ public class CityRescueImpl implements CityRescue {
         }
 
         // Check if there is space to add another unit
-        if (unitsInSimulation == MAX_UNITS) {
+        if (unitsInSimulation == MAX_UNITS_IN_SIM) {
             throw new IllegalStateException("Reached maximum number of units in simulation");
         }
 
