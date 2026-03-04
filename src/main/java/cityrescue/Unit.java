@@ -11,7 +11,7 @@ public abstract class Unit {
     // Declare a variable to hold the unit id
     private final int unitId;
     // Location for unit
-    private int[] coordinate;
+    private int[] coordinates;
     // Number of units currently in existence
     private static int numberOfUnits;
     // Indicates which station this unit belongs to
@@ -35,7 +35,7 @@ public abstract class Unit {
         // Give this new station an ID
         this.unitId = ++numberOfUnits;
         // Set the new units location
-        this.coordinate = new int[] {x, y};
+        this.coordinates = new int[] {x, y};
         // Indicate which station it belongs to
         this.homeStationId = homeStationId;
         // Set the initial state of the units status
@@ -59,7 +59,7 @@ public abstract class Unit {
      * @return The location of this unit as an array of two integers.
      */
     public int[] getUnitCoordinates() {
-        return coordinate;
+        return coordinates;
     }
 
     /**
@@ -83,7 +83,7 @@ public abstract class Unit {
      * @param coordinate The new location of the unit.
      */
     public void setUnitCoordinates(int[] coordinate) {
-        this.coordinate = coordinate;
+        this.coordinates = coordinate;
     }
 
     /**
