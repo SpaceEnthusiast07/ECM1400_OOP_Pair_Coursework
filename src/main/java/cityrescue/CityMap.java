@@ -8,7 +8,7 @@ package cityrescue;
  *     <li>Stations</li>
  *     <li>Manual obstacles called from the interface</li>
  * </ul>
- * Units are not counted as obstacles
+ * Units are not counted as obstacles.
  * @author Cameron Russell
  * @author Jake Fordy
  */

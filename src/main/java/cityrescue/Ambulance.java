@@ -10,7 +10,7 @@ import cityrescue.enums.UnitType;
  * spent at scene, and its assigned incident ID) and methods (getters, setters, tick control).
  * It contains specific attributes for the ambulance's specific details (how much time it takes to
  * resolve an incident, and what type of vehicle it is). It also contains specific methods for the
- * ambulance's specific behaviour (what incident types it can handle, and getters for specific attributes)
+ * ambulance's specific behaviour (what incident types it can handle, and getters for specific attributes).
  * @author Cameron Russell
  * @author Jake Fordy
  */
