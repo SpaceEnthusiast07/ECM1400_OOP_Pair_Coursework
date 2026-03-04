@@ -448,7 +448,7 @@ public class CityRescueImpl implements CityRescue {
         }
 
         // Check if the destination station is full
-        if (destinationStation.getNumberOfUnits() == MAX_UNITS) {
+        if (destinationStation.getNumberOfUnits() == destinationStation.getMaxUnits()) {
             throw new IllegalStateException("Station is full");
         }
 
