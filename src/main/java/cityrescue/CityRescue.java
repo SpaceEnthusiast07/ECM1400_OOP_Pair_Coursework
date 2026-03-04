@@ -17,7 +17,7 @@ public interface CityRescue {
 
     int addUnit(int stationId, UnitType type) throws IDNotRecognisedException, InvalidUnitException, IllegalStateException;
     void decommissionUnit(int unitId) throws IDNotRecognisedException, IllegalStateException;
-    void transferUnit(int unitId, int newStationId) throws IDNotRecognisedException, IllegalStateException;
+    void transferUnit(int unitId, int newStationId) throws IDNotRecognisedException, IllegalStateException, CapacityExceededException;
     void setUnitOutOfService(int unitId, boolean outOfService) throws IDNotRecognisedException, IllegalStateException;
     int[] getUnitIds();
     String viewUnit(int unitId) throws IDNotRecognisedException;

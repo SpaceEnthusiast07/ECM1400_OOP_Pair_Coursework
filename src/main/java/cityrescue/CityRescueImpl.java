@@ -429,10 +429,11 @@ public class CityRescueImpl implements CityRescue {
      * @param unitId The unit to transfer.
      * @param newStationId The destination station's ID.
      * @throws IDNotRecognisedException Thrown when either the unit or station doesn't exist.
-     * @throws IllegalStateException Thrown when either the unit is not busy or the destination station is full.
+     * @throws IllegalStateException Thrown when the unit is busy (not idle)
+     * @throws CapacityExceededException Thrown when the destination station is full.
      */
     @Override
-    public void transferUnit(int unitId, int newStationId) throws IDNotRecognisedException, IllegalStateException {
+    public void transferUnit(int unitId, int newStationId) throws IDNotRecognisedException, IllegalStateException, CapacityExceededException {
         // Throw exception if the unit to move doesn't exist
         int unitIndex = findUnitIndex(unitId);
         // Throw exception if the destination station doesn't exist
@@ -449,7 +450,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Check if the destination station is full
         if (destinationStation.getNumberOfUnits() == destinationStation.getMaxUnits()) {
-            throw new IllegalStateException("Station is full");
+            throw new CapacityExceededException("Station is full");
         }
 
         // Decrement the number of units for the old station
