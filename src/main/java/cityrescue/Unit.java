@@ -5,7 +5,12 @@ import cityrescue.enums.UnitStatus;
 import cityrescue.enums.UnitType;
 
 /**
- * TODO: Describe this class.
+ * Main template class for all subclass units.
+ * Includes a constructor that initialises the basic information about a unit.
+ * Such information includes: ID, coordinates, the ID of its home station,
+ * its status, number of ticks currently spent at scene, and its assigned incident ID.
+ * It contains many getter and setter methods along with a method to check if this specific
+ * unit can handle a particular incident.
  */
 public abstract class Unit {
     // Declare a variable to hold the unit id
