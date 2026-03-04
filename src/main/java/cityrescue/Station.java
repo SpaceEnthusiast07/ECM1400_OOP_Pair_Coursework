@@ -7,7 +7,7 @@ public class Station {
     // Declared variable to hold station name
     private String name;
     // Variable to hold the maximum number of units at this station
-    private int maxUnits = 50;
+    private int maxUnits;
     // Variable represents the location of this station on the city map
     private int[] coordinates;
     // Static attribute used to keep track of the number of stations
@@ -23,10 +23,11 @@ public class Station {
      * @param x The x-coordinate of this station.
      * @param y The y-coordinate of this station.
      */
-    public Station(String name, int x, int y) {
+    public Station(String name, int x, int y, int maxUnits) {
         this.name = name;
         this.coordinates = new int[]{x,y};
         this.stationId = ++numberOfStations;
+        this.maxUnits = maxUnits;
     }
 
     /**

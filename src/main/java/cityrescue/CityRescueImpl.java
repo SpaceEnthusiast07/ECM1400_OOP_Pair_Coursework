@@ -152,7 +152,7 @@ public class CityRescueImpl implements CityRescue {
         }
 
         // Create a new station
-        Station newStation = new Station(name, x, y);
+        Station newStation = new Station(name, x, y, MAX_UNITS);
 
         // Add this station to the array of stations
         stations[newStation.getStationId()-1] = newStation;
