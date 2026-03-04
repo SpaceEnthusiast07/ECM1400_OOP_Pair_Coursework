@@ -54,7 +54,7 @@ public class CityRescueImpl implements CityRescue {
 
         // Clear all stations, units and incidents
         stations = new Station[MAX_STATIONS];
-        units = new Unit[MAX_UNITS];
+        units = new Unit[MAX_UNITS*MAX_STATIONS];
         incidents = new Incident[MAX_INCIDENTS];
 
         // Reset tick to 0
