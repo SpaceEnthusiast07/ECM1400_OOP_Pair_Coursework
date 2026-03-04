@@ -1,7 +1,16 @@
 package cityrescue;
 
 /**
- * TODO: Describe this class.
+ * CityMap contains the obstacle map used in CityRescueImpl to check which
+ * locations have an obstacle and thus cannot be moved through (affecting the movement
+ * logic of units). Obstacles consist of:
+ * <ul>
+ *     <li>Stations</li>
+ *     <li>Manual obstacles called from the interface</li>
+ * </ul>
+ * Units are not counted as obstacles
+ * @author Cameron Russell
+ * @author Jake Fordy
  */
 public class CityMap {
     // Declare a 2-dimensional array to hold the city grid

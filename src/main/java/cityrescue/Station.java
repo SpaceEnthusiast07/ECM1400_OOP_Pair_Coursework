@@ -1,7 +1,12 @@
 package cityrescue;
 
 /**
- * TODO: Describe this class.
+ * Station contains the basic details of a specific station. It has simple
+ * attributes including name, maxUnits, coordinates, id, station count and number of occupying units.
+ * Its methods consist of getters/setters and unit count changers, as stations don't
+ * have much behaviour on their own.
+ * @author Cameron Russell
+ * @author Jake Fordy
  */
 public class Station {
     // Declared variable to hold station name

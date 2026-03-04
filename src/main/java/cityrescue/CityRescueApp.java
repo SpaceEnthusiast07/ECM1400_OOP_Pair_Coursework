@@ -8,6 +8,11 @@ import java.util.Scanner;
 
 /**
  * CityRescueApp is designed to demonstrate the major functionality implemented in the CityRescueImpl class.
+ * It runs through a simulation of the program, creating incidents and reporting the status across ticks as
+ * units respond and resolve the incidents. It runs on a step basis, pausing at each key point before the user
+ * presses 'Enter' to continue.
+ * @author Cameron Russell
+ * @author Jake Fordy
  */
 public class CityRescueApp {
     // Declare scanner object for user input

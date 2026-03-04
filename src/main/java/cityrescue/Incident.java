@@ -4,7 +4,12 @@ import cityrescue.enums.IncidentStatus;
 import cityrescue.enums.IncidentType;
 
 /**
- * TODO: Describe this class.
+ * Incident contains the basic details of a specific incident. It has simple
+ * attributes including location, severity, status, type, id, incident count, and the assigned unit's ID.
+ * Its methods purely consist of getters/setters as most of the handling logic is contained
+ * in CityRescueImpl.
+ * @author Cameron Russell
+ * @author Jake Fordy
  */
 public class Incident {
     // Location of the incident

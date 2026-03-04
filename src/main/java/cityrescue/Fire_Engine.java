@@ -5,7 +5,14 @@ import cityrescue.enums.UnitStatus;
 import cityrescue.enums.UnitType;
 
 /**
- * TODO: Describe this class.
+ * Fire_Engine is a subclass of Unit, inheriting all its attributes (basic information such
+ * as ID, coordinates, the ID of its home station, its status, number of ticks currently
+ * spent at scene, and its assigned incident ID) and methods (getters, setters, tick control).
+ * It contains specific attributes for the fire engine's specific details (how much time it takes to
+ * resolve an incident, and what type of vehicle it is). It also contains specific methods for the
+ * fire engine's specific behaviour (what incident types it can handle, and getters for specific attributes)
+ * @author Cameron Russell
+ * @author Jake Fordy
  */
 public class Fire_Engine extends Unit {
     // Time taken to resolve an incident

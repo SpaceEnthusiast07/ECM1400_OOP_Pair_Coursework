@@ -6,16 +6,18 @@ import cityrescue.exceptions.*;
 import java.util.Arrays;
 
 /**
- * CityRescueImpl (Starter)
- * Your task is to implement the full specification.
- * You may add additional classes in any package(s) you like.
+ * CityRescueImpl is the main backend app class controlling and owning all other classes/features
+ * within the cityrescue project. The class is built to be used with an external interface
+ * and thus, most methods are unused here (but can be called from the interface).
+ * @author Cameron Russell
+ * @author Jake Fordy
  */
 public class CityRescueImpl implements CityRescue {
     // Array size constants:
     private final int MAX_UNITS = 50;         // Maximum number of units any station can own
     private final int MAX_STATIONS = 20;      // Max number of stations in the program
     private final int MAX_INCIDENTS = 200;    // Max number of incidents in the program
-    private final int MAX_UNITS_IN_SIM = MAX_UNITS * MAX_STATIONS;
+    private final int MAX_UNITS_IN_SIM = MAX_UNITS * MAX_STATIONS;  // Maximum number of units possible in the program
 
     // Variables used to keep track of the number of stations/units/incidents in the simulation
     // These variables will be incremented/decremented every time a station/unit/incident is created/deleted
