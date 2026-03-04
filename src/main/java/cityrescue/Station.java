@@ -46,6 +46,14 @@ public class Station {
     }
 
     /**
+     * Allows that client to obtain the maximum number of units this station can hold.
+     * @return An integer representing the maximum number of units this station can hold.
+     */
+    public int getMaxUnits() {
+        return this.maxUnits;
+    }
+
+    /**
      * Allows the client to obtain this station's ID.
      * @return This station's ID.
      */
